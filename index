@@ -35,20 +35,56 @@
             color: var(--primary-color);
         }
 
-        h1 {
+        .site-header {
+            background: linear-gradient(135deg, #003d99 0%, #0066cc 60%, #0088ff 100%);
+            border-radius: 12px;
+            padding: 28px 24px 20px;
+            margin-bottom: 24px;
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid var(--secondary-color);
-            padding-bottom: 10px;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        .site-header h1 {
+            color: #ffffff;
+            margin: 0 0 6px 0;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .site-header .subtitle {
+            color: rgba(255,255,255,0.82);
+            font-size: 14px;
+            margin: 0;
+            letter-spacing: 0.3px;
+        }
+
+        .site-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary-color);
+            border-radius: 2px;
+            margin: 12px auto 0;
         }
 
         .card {
             background-color: var(--card-bg);
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 24px;
             margin-bottom: 20px;
+            border-left: 4px solid var(--primary-color);
+            border-top: 3px solid var(--primary-color);
         }
+
+        .card:nth-child(2) { border-left-color: var(--primary-color); border-top-color: var(--primary-color); }
+        .card:nth-child(3) { border-left-color: var(--secondary-color); border-top-color: var(--secondary-color); }
+        .card:nth-child(4) { border-left-color: var(--warning-color); border-top-color: var(--warning-color); }
+        .card:nth-child(5) { border-left-color: var(--success-color); border-top-color: var(--success-color); }
 
         .square {
             display: inline-block;
@@ -71,17 +107,32 @@
         }
 
         th, td {
-            padding: 10px;
+            padding: 12px 14px;
             text-align: center;
         }
 
         th {
             background-color: var(--primary-color);
             color: white;
+            font-size: 14px;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            padding: 14px 14px;
         }
 
         tr:nth-child(even) {
-            background-color: rgba(0, 0, 0, 0.05);
+            background-color: rgba(0, 102, 204, 0.08);
+        }
+
+        tr:hover td {
+            background-color: rgba(0, 102, 204, 0.04);
+        }
+
+        .championship-row td {
+            background-color: #fff3cd !important;
+            font-weight: bold;
+            color: #b45309;
+            border-left: 3px solid #f59e0b;
         }
 
         .form-group {
@@ -106,14 +157,17 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
+            padding: 10px 20px;
+            border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0, 102, 204, 0.35);
+            transition: background-color 0.15s, box-shadow 0.15s;
         }
 
         button:hover {
             background-color: #0055aa;
+            box-shadow: 0 4px 10px rgba(0, 102, 204, 0.45);
         }
 
         .row {
@@ -157,10 +211,11 @@
         }
 
         .total-winnings {
-            font-size: 24px;
+            font-size: 28px;
             text-align: center;
             margin: 20px 0;
             color: var(--success-color);
+            font-weight: bold;
         }
 
         .badge {
@@ -181,8 +236,8 @@
 
         .game-card {
             border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 15px 15px 40px 15px;
             margin-bottom: 10px;
             position: relative;
         }
@@ -195,15 +250,54 @@
             border-left: 5px solid var(--error-color);
         }
 
+        .round-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 9px;
+            border-radius: 20px;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .game-card.win .round-badge {
+            background-color: var(--success-color);
+        }
+
         .team-score {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 5px;
+            padding: 4px 0;
+        }
+
+        .team-score + .team-score {
+            border-top: 1px solid var(--border-color);
+            margin-top: 2px;
+            padding-top: 6px;
+        }
+
+        .team-logo {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+
+        .team-logo-placeholder {
+            width: 28px;
+            height: 28px;
+            margin-right: 8px;
+            flex-shrink: 0;
         }
 
         .team-name {
             font-weight: bold;
+            flex: 1;
         }
 
         .score {
@@ -214,8 +308,8 @@
         .game-info {
             display: flex;
             justify-content: space-between;
-            color: #666;
-            font-size: 12px;
+            color: #555;
+            font-size: 13px;
             margin-top: 10px;
         }
 
@@ -236,23 +330,37 @@
 
         .tabs {
             display: flex;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
             margin-bottom: 20px;
+            gap: 4px;
         }
 
         .tab {
-            padding: 10px 20px;
+            padding: 10px 18px;
             cursor: pointer;
-            margin-right: 5px;
+            margin-right: 0;
             border: 1px solid transparent;
             border-bottom: none;
-            border-radius: 4px 4px 0 0;
+            border-radius: 6px 6px 0 0;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+            transition: background-color 0.15s, color 0.15s;
+        }
+
+        .tab:hover:not(.active) {
+            background-color: rgba(0, 102, 204, 0.07);
+            color: var(--primary-color);
         }
 
         .tab.active {
             background-color: white;
             border-color: var(--border-color);
-            margin-bottom: -1px;
+            border-bottom: 3px solid var(--secondary-color);
+            margin-bottom: -2px;
+            color: var(--primary-color);
         }
 
         .tab-content {
@@ -278,8 +386,8 @@
             line-height: 30px;
             font-weight: bold;
             position: absolute;
-            right: 15px;
-            top: 15px;
+            right: 12px;
+            bottom: 12px;
         }
 
         .add-to-history-btn {
@@ -293,6 +401,21 @@
             100% { transform: rotate(360deg); }
         }
 
+        #sticky-winnings-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #e8f5e9;
+            border-bottom: 2px solid #4caf50;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            border-radius: 0 0 8px 8px;
+        }
+
         @media (max-width: 768px) {
             .col {
                 flex: 100%;
@@ -303,8 +426,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>NCAA March Madness Squares Tracker</h1>
-        
+        <div class="site-header">
+            <h1>NCAA March Madness Squares Tracker</h1>
+            <p class="subtitle">Track your NCAA March Madness squares</p>
+        </div>
+
+        <div id="sticky-winnings-bar">Total Winnings: $0</div>
+
         <div class="card">
             <h2>Your Squares</h2>
             <p>
@@ -345,7 +473,7 @@
                         <td>Round 5</td>
                         <td>$60</td>
                     </tr>
-                    <tr>
+                    <tr class="championship-row">
                         <td>Championship</td>
                         <td>$240</td>
                     </tr>
@@ -394,7 +522,7 @@
                 </div>
                 
                 <div id="api-games-results"></div>
-                <div id="api-debug" style="margin-top: 10px; font-size: 12px; color: #666; white-space: pre-wrap;"></div>
+                <div id="api-debug" style="display: none;"></div>
             </div>
             
             <div class="tab-content" id="check-manual">
@@ -460,16 +588,30 @@
                 <div class="form-group">
                     <label for="tournament-year">Tournament Year</label>
                     <select id="tournament-year">
+                        <option value="2026" selected>2026</option>
                         <option value="2025">2025</option>
-                        <option value="2024" selected>2024</option>
+                        <option value="2024">2024</option>
                         <option value="2023">2023</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="tournament-dates">Tournament Dates</label>
+                    <label for="date-range">Date Range</label>
+                    <select id="date-range">
+                        <option value="1">1 day</option>
+                        <option value="3" selected>3 days</option>
+                        <option value="7">7 days</option>
+                        <option value="14">2 weeks</option>
+                        <option value="21">3 weeks (entire tournament)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="tournament-dates">Tournament Start Date</label>
                     <select id="tournament-dates">
-                        <option value="20250320">March 20, 2025 (Current Day)</option>
-                        <option value="20250319">March 19, 2025 (Yesterday)</option>
+                        <option value="20260319">March 19, 2026 (Start of Tournament)</option>
+                        <option value="20260318">March 18, 2026</option>
+                        <option value="20260317">March 17, 2026</option>
+                        <option value="20250320">March 20, 2025 (Start of Tournament)</option>
+                        <option value="20250319">March 19, 2025</option>
                         <option value="20250318">March 18, 2025</option>
                         <option value="20240321">March 21, 2024</option>
                         <option value="20240320">March 20, 2024</option>
@@ -497,6 +639,7 @@
         
         <div class="card">
             <h2>Game History <span class="badge" id="history-count">0</span></h2>
+            <div style="text-align:center; font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">Season Total</div>
             <div class="total-winnings" id="total-winnings">$0</div>
             <div id="game-history"></div>
         </div>
@@ -506,8 +649,8 @@
         document.addEventListener('DOMContentLoaded', function() {
         // Constants
         const squares = [
-            { winner: 9, loser: 0 },
-            { winner: 3, loser: 7 }
+            { winner: 3, loser: 2 },
+            { winner: 8, loser: 9 }
         ];
         
         const payouts = {
@@ -522,10 +665,14 @@
         // State
         let gameHistory = [];
         let totalWinnings = 0;
-        let tournamentYear = '2025'; // Fixed to 2025
-        let tournamentDate = localStorage.getItem('ncaaTournamentDate') || '20250320'; // Today's date by default
+        let tournamentYear = '2026'; // Fixed to 2026
+        let tournamentDate = localStorage.getItem('ncaaTournamentDate') || '20260319'; // Today's date by default
+        let dateRange = localStorage.getItem('ncaaDateRange') || '3'; // Default to 3 days
         let autoRefreshInterval = localStorage.getItem('ncaaAutoRefresh') || '0';
         let refreshTimerId = null;
+        let allFetchedGames = []; // Store all fetched games to avoid duplicates
+        
+
         
         // DOM Elements
         const checkResultBtn = document.getElementById('check-result');
@@ -543,6 +690,7 @@
         const liveGamesOnlyCheckbox = document.getElementById('live-games-only');
         const lastUpdatedElement = document.getElementById('last-updated');
         const autoRefreshSelect = document.getElementById('auto-refresh');
+        const dateRangeSelect = document.getElementById('date-range');
         
         // Tab functionality
         const tabs = document.querySelectorAll('.tab');
@@ -558,20 +706,24 @@
             });
         });
         
-        // Initialize settings - set tournament year to 2025 only
+        // Initialize settings - set tournament year to 2026 only
         if (document.getElementById('tournament-year')) {
-            document.getElementById('tournament-year').value = '2025';
+            document.getElementById('tournament-year').value = '2026';
             document.getElementById('tournament-year').disabled = true; // Disable year selection
         }
-        
+
         if (document.getElementById('tournament-dates')) {
             document.getElementById('tournament-dates').value = tournamentDate;
-            // Filter out non-2025 options
+            // Filter out non-2026 options
             Array.from(document.getElementById('tournament-dates').options).forEach(option => {
-                if (!option.value.startsWith('2025')) {
+                if (!option.value.startsWith('2026')) {
                     option.disabled = true;
                 }
             });
+        }
+        
+        if (document.getElementById('date-range')) {
+            document.getElementById('date-range').value = dateRange;
         }
         
         document.getElementById('auto-refresh').value = autoRefreshInterval;
@@ -600,22 +752,22 @@
         }
         
         function clearPreviousYearHistory() {
-            // Filter out games from years before 2025
+            // Filter out games from years before 2026
             const oldHistoryLength = gameHistory.length;
-            
-            // Filter to keep only 2025 games
+
+            // Filter to keep only 2026 games
             gameHistory = gameHistory.filter(game => {
-                // Check if game has a year property set to 2025
-                if (game.year === 2025) {
+                // Check if game has a year property set to 2026
+                if (game.year === 2026) {
                     return true;
                 }
-                
+
                 // If no year property, check the date
                 if (game.date) {
                     const gameYear = new Date(game.date).getFullYear();
-                    return gameYear === 2025;
+                    return gameYear === 2026;
                 }
-                
+
                 // If we can't determine the year, remove it
                 return false;
             });
@@ -636,7 +788,7 @@
             // Optionally, notify the user how many games were removed
             const removedCount = oldHistoryLength - gameHistory.length;
             if (removedCount > 0) {
-                alert(`Removed ${removedCount} games from previous years. Only showing 2025 tournament games.`);
+                alert(`Removed ${removedCount} games from previous years. Only showing 2026 tournament games.`);
             }
         }
 
@@ -646,15 +798,27 @@
         }
         
         function saveSettings() {
-            // Tournament year is fixed to 2025
+            // Tournament year is fixed to 2026
             if (document.getElementById('tournament-dates')) {
                 tournamentDate = document.getElementById('tournament-dates').value;
                 localStorage.setItem('ncaaTournamentDate', tournamentDate);
             }
+            
+            if (document.getElementById('date-range')) {
+                dateRange = document.getElementById('date-range').value;
+                localStorage.setItem('ncaaDateRange', dateRange);
+            }
+            
             autoRefreshInterval = document.getElementById('auto-refresh').value;
             localStorage.setItem('ncaaAutoRefresh', autoRefreshInterval);
             setupAutoRefresh();
-            alert('Settings saved successfully! Year is fixed to 2025 March Madness.');
+            alert('Settings saved successfully! Year is fixed to 2026 March Madness.');
+            
+            // Clear fetched games cache when settings change
+            allFetchedGames = [];
+            
+            // Refresh games with new settings
+            fetchTournamentGames();
         }
         
         function setupAutoRefresh() {
@@ -731,9 +895,9 @@
                 isWin,
                 date: new Date().toISOString(),
                 fromApi: false,
-                year: 2025 // Add year info
+                year: 2026 // Add year info
             };
-            
+
             addGameToHistoryList(game);
             
             document.getElementById('team1').value = '';
@@ -771,16 +935,18 @@
                     return `
                         <div class="history-item">
                             <div class="game-card ${game.isWin ? 'win' : 'loss'}">
+                                <div class="round-badge">${roundName}</div>
                                 <div class="team-score">
+                                    ${game.winnerLogo ? `<img src="${game.winnerLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
                                     <div class="team-name">${game.winnerTeam}</div>
                                     <div class="score">${game.winnerScore}</div>
                                 </div>
                                 <div class="team-score">
+                                    ${game.loserLogo ? `<img src="${game.loserLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
                                     <div class="team-name">${game.loserTeam}</div>
                                     <div class="score">${game.loserScore}</div>
                                 </div>
                                 <div class="game-info">
-                                    <div>${roundName}</div>
                                     <div>Score Digits: (${winnerLastDigit},${loserLastDigit})</div>
                                     <div>${new Date(game.date).toLocaleDateString()}</div>
                                 </div>
@@ -794,7 +960,12 @@
         }
         
         function updateWinningsDisplay() {
-            totalWinningsElement.textContent = `$${totalWinnings}`;
+            const formatted = '$' + totalWinnings.toLocaleString();
+            totalWinningsElement.textContent = formatted;
+            const stickyBar = document.getElementById('sticky-winnings-bar');
+            if (stickyBar) {
+                stickyBar.textContent = 'Total Winnings: ' + formatted;
+            }
         }
         
         function fetchTournamentGames() {
@@ -805,18 +976,62 @@
             const roundFilterValue = parseInt(roundFilter.value);
             const liveGamesOnly = liveGamesOnlyCheckbox.checked;
             
-            fetchESPNGames(roundFilterValue, liveGamesOnly)
-                .then(games => {
+            // Clear previously fetched games when manually triggering a fetch
+            if (event && event.type === 'click') {
+                allFetchedGames = [];
+            }
+            
+            // Get date range for fetching multiple days of games
+            const startDate = document.getElementById('tournament-dates') ? 
+                document.getElementById('tournament-dates').value : tournamentDate;
+            const days = parseInt(dateRange);
+            
+            // Generate array of dates to fetch (tournament typically spans 3 weeks)
+            const datesToFetch = generateDateRange(startDate, days);
+            
+            // Debug info
+            apiDebugElement.textContent = `Fetching games for dates: ${datesToFetch.join(', ')}`;
+            
+            // Create an array of promises for each date
+            const fetchPromises = datesToFetch.map(date => fetchESPNGamesForDate(date));
+            
+            // Wait for all fetch operations to complete
+            Promise.all(fetchPromises)
+                .then(resultsArray => {
+                    // Combine all results and remove duplicates
+                    let allGames = [].concat(...resultsArray)
+                        .filter((game, index, self) => 
+                            index === self.findIndex(g => g.id === game.id)
+                        );
+                    
+                    // No demo games - using real data only
+                    
+                    // Store games to avoid duplicates in future fetches
+                    allFetchedGames = [...allGames];
+                    
+                    // Apply filters
+                    let filteredGames = allGames;
+                    
+                    if (roundFilterValue > 0) {
+                        filteredGames = filteredGames.filter(game => game.round === roundFilterValue);
+                    }
+                    
+                    if (liveGamesOnly) {
+                        filteredGames = filteredGames.filter(game => game.status === 'live');
+                    }
+                    
                     apiGamesContainer.style.display = 'none';
-                    if (games.length === 0) {
+                    
+                    if (filteredGames.length === 0) {
                         apiGamesResults.innerHTML = `
                             <div class="result">
                                 No games found for the selected filters. Try changing the tournament date in settings.
                             </div>
                         `;
                     } else {
-                        displayApiGames(games);
+                        displayApiGames(filteredGames);
                     }
+                    
                     lastUpdatedElement.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
                 })
                 .catch(error => {
@@ -829,34 +1044,210 @@
                 });
         }
         
-        function fetchESPNGames(roundFilter, liveGamesOnly) {
-            // Use the saved tournament date for the API call - ensure it's 2025
-            const dateParam = document.getElementById('tournament-dates') ? 
-                document.getElementById('tournament-dates').value : tournamentDate;
+        function generateDateRange(startDateStr, days) {
+            const dates = [];
+            let currentDate = new Date(
+                startDateStr.substring(0, 4), 
+                parseInt(startDateStr.substring(4, 6)) - 1, 
+                startDateStr.substring(6, 8)
+            );
+            
+            for (let i = 0; i < days; i++) {
+                const year = currentDate.getFullYear();
+                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+                const day = String(currentDate.getDate()).padStart(2, '0');
+                dates.push(`${year}${month}${day}`);
                 
-            // Ensure we're only using 2025 dates
-            const validDateParam = dateParam.startsWith('2025') ? dateParam : '20250320';
+                // Move to next day
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            
+            return dates;
+        }
+        
+        // Enhanced round detection function
+        function detectTournamentRound(event) {
+            // First check if the event name contains round information
+            if (event.name) {
+                // Check for exact round names in the event name
+                const roundKeywords = {
+                    'First Round': 1,
+                    'Round of 64': 1,
+                    'Second Round': 2,
+                    'Round of 32': 2,
+                    'Sweet 16': 3,
+                    'Sweet Sixteen': 3,
+                    'Elite Eight': 4,
+                    'Elite 8': 4,
+                    'Final Four': 5,
+                    'National Championship': 6,
+                    'Championship Game': 6
+                };
                 
+                // Check for exact matches in full name
+                for (const [keyword, roundNumber] of Object.entries(roundKeywords)) {
+                    if (event.name.includes(keyword)) {
+                        return roundNumber;
+                    }
+                }
+                
+                // If name has format "Team1 vs Team2 - Round", extract the round part
+                if (event.name.includes(" - ")) {
+                    const parts = event.name.split(" - ");
+                    if (parts.length > 1) {
+                        const roundText = parts[1].trim();
+                        if (roundKeywords[roundText]) {
+                            return roundKeywords[roundText];
+                        }
+                    }
+                }
+            }
+            
+            // If no round found in name, check competition notes if available
+            if (event.competitions && 
+                event.competitions[0] && 
+                event.competitions[0].notes) {
+                
+                for (const note of event.competitions[0].notes) {
+                    if (note.headline) {
+                        if (note.headline.includes("First Round") || 
+                            note.headline.includes("Round of 64")) {
+                            return 1;
+                        } else if (note.headline.includes("Second Round") || 
+                                note.headline.includes("Round of 32")) {
+                            return 2;
+                        } else if (note.headline.includes("Sweet 16") || 
+                                note.headline.includes("Sweet Sixteen")) {
+                            return 3;
+                        } else if (note.headline.includes("Elite Eight") || 
+                                note.headline.includes("Elite 8")) {
+                            return 4;
+                        } else if (note.headline.includes("Final Four")) {
+                            return 5;
+                        } else if (note.headline.includes("National Championship") ||
+                                note.headline.includes("Championship Game")) {
+                            return 6;
+                        }
+                    }
+                }
+            }
+            
+            // Fallback to date-based round detection
+            const gameDate = new Date(event.date);
+            const dayOfMonth = gameDate.getDate();
+            
+            // Adjust these dates based on the actual 2026 tournament schedule
+            if (dayOfMonth <= 21) {
+                return 1; // First Round
+            } else if (dayOfMonth <= 23) {
+                return 2; // Second Round
+            } else if (dayOfMonth <= 25) {
+                return 3; // Sweet 16
+            } else if (dayOfMonth <= 27) {
+                return 4; // Elite 8
+            } else if (dayOfMonth <= 29) {
+                return 5; // Final Four
+            } else {
+                return 6; // Championship
+            }
+        }
+
+        // Update the fetchESPNGamesForDate function to use the new round detection
+        // Replace the existing round detection code with this call:
+        // let round = detectTournamentRound(event);
+
+
+
+
+        function fetchJSONP(url) {
+            return new Promise((resolve, reject) => {
+                const cbName = 'espnCb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                const script = document.createElement('script');
+                const timer = setTimeout(() => {
+                    cleanup();
+                    reject(new Error('Request timed out'));
+                }, 15000);
+
+                function cleanup() {
+                    clearTimeout(timer);
+                    delete window[cbName];
+                    if (script.parentNode) script.parentNode.removeChild(script);
+                }
+
+                window[cbName] = function(data) {
+                    cleanup();
+                    resolve(data);
+                };
+
+                script.onerror = function() {
+                    cleanup();
+                    reject(new Error('Failed to load script'));
+                };
+
+                script.src = url + '&callback=' + cbName;
+                document.head.appendChild(script);
+            });
+        }
+
+        function fetchESPNGamesForDate(dateParam) {
+            // Ensure we're only using 2026 dates
+            const validDateParam = dateParam.startsWith('2026') ? dateParam : '20260319';
+
             const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=100&dates=${validDateParam}`;
-            
+
             // Debug info
-            apiDebugElement.textContent = `API URL: ${url} (2025 NCAA Tournament)`;
-            
-            return fetch(url)
-                .then(response => {
-                    if (!response.ok) throw new Error(`API returned status: ${response.status}`);
-                    return response.json();
-                })
+            apiDebugElement.textContent += `\nFetching: ${url}`;
+
+            return fetchJSONP(url)
                 .then(data => {
                     // Debug info
-                    apiDebugElement.textContent += `\nTotal events: ${data.events ? data.events.length : 0}`;
+                    apiDebugElement.textContent += `\nTotal events for ${dateParam}: ${data.events ? data.events.length : 0}`;
                     
                     if (!data.events || data.events.length === 0) {
                         return [];
                     }
                     
-                    // Filter for completed games or live games
-                    let filteredGames = data.events
+                    // Debug info - show all events
+                    if (data.events && data.events.length > 0) {
+                        data.events.forEach((event, idx) => {
+                            const debugInfo = {
+                                id: event.id,
+                                name: event.name,
+                                shortName: event.shortName,
+                                hasNotes: event.competitions && event.competitions[0]?.notes ? true : false
+                            };
+                            apiDebugElement.textContent += `\nEvent ${idx}: ${JSON.stringify(debugInfo)}`;
+                        });
+                    }
+                    
+                    // Filter strictly for NCAA March Madness tournament games only
+                    const ncaaGames = data.events.filter(event => {
+                        const name = event.name || '';
+                        const notes = event.competitions &&
+                            event.competitions[0] &&
+                            event.competitions[0].notes
+                            ? event.competitions[0].notes : [];
+
+                        const marchMadnessKeywords = [
+                            "First Round", "Round of 64",
+                            "Second Round", "Round of 32",
+                            "Sweet 16", "Sweet Sixteen",
+                            "Elite Eight", "Elite 8",
+                            "Final Four",
+                            "National Championship",
+                            "NCAA Tournament", "March Madness"
+                        ];
+
+                        const nameMatch = marchMadnessKeywords.some(kw => name.includes(kw));
+                        const notesMatch = notes.some(note =>
+                            note.headline && marchMadnessKeywords.some(kw => note.headline.includes(kw))
+                        );
+
+                        return nameMatch || notesMatch;
+                    });
+                    
+                    // Map tournament games to our format
+                    return ncaaGames
                         .filter(event => {
                             // Keep games that are either in progress or completed
                             return event.status && 
@@ -871,45 +1262,37 @@
                                 return null;
                             }
                             
-                            // Determine which teams are home and away
-                            const [home, away] = competitors;
+                            // Determine which team is home and which is away
+                            let homeTeam, awayTeam;
+                            for (const team of competitors) {
+                                if (team.homeAway === 'home') {
+                                    homeTeam = team;
+                                } else {
+                                    awayTeam = team;
+                                }
+                            }
+                            
+                            // If home/away isn't defined, use the first two teams
+                            if (!homeTeam) homeTeam = competitors[0];
+                            if (!awayTeam) awayTeam = competitors[1];
                             
                             // Skip games without scores
-                            if (isNaN(parseInt(home.score)) || isNaN(parseInt(away.score))) {
+                            if (isNaN(parseInt(homeTeam.score)) || isNaN(parseInt(awayTeam.score))) {
                                 return null;
                             }
                             
-                            const homeScore = parseInt(home.score);
-                            const awayScore = parseInt(away.score);
+                            const homeScore = parseInt(homeTeam.score);
+                            const awayScore = parseInt(awayTeam.score);
                             
                             // Determine winner and loser
                             const [winner, loser] = homeScore > awayScore
-                                ? [home, away]
-                                : [away, home];
+                                ? [homeTeam, awayTeam]
+                                : [awayTeam, homeTeam];
                                 
                             const winnerScore = parseInt(winner.score);
                             const loserScore = parseInt(loser.score);
                             
-                            // Determine tournament round
-                            let round = 1; // default to first round
-                            
-                            if (event.name && event.name.includes(" - ")) {
-                                const roundText = event.name.split(" - ")[1];
-                                const roundMap = {
-                                    'First Round': 1,
-                                    'Round of 64': 1,
-                                    'Second Round': 2,
-                                    'Round of 32': 2,
-                                    'Sweet 16': 3,
-                                    'Sweet Sixteen': 3,
-                                    'Elite Eight': 4,
-                                    'Elite 8': 4,
-                                    'Final Four': 5,
-                                    'Championship': 6,
-                                    'National Championship': 6
-                                };
-                                round = roundMap[roundText] || 1;
-                            }
+                            let round = detectTournamentRound(event);
                             
                             const isCompleted = event.status.type.completed;
                             
@@ -917,29 +1300,17 @@
                                 id: event.id,
                                 winnerTeam: winner.team.displayName,
                                 winnerScore: winnerScore,
+                                winnerLogo: winner.team.logo || (winner.team.logos && winner.team.logos[0] && winner.team.logos[0].href) || '',
                                 loserTeam: loser.team.displayName,
                                 loserScore: loserScore,
+                                loserLogo: loser.team.logo || (loser.team.logos && loser.team.logos[0] && loser.team.logos[0].href) || '',
                                 date: event.date,
                                 status: isCompleted ? 'final' : 'live',
                                 round: round,
-                                year: 2025 // Add year info
+                                year: 2026 // Add year info
                             };
                         })
                         .filter(game => game !== null); // Remove null entries
-                        
-                    // Apply filters
-                    if (roundFilter > 0) {
-                        filteredGames = filteredGames.filter(game => game.round === roundFilter);
-                    }
-                    
-                    if (liveGamesOnly) {
-                        filteredGames = filteredGames.filter(game => game.status === 'live');
-                    }
-                    
-                    // Debug info
-                    apiDebugElement.textContent += `\nFiltered games: ${filteredGames.length}`;
-                    
-                    return filteredGames;
                 });
         }
         
@@ -961,25 +1332,30 @@
                     '<span style="color: var(--warning-color); font-weight: bold;">LIVE</span>' : 
                     '<span>Final</span>';
                 
+                // Check if the game is already in history
+                const inHistory = gameHistory.some(g => g.id === game.id);
+                
                 return `
                     <div class="game-card ${isWin ? 'win' : 'loss'}">
+                        <div class="round-badge">${roundName}</div>
                         <div class="team-score">
+                            ${game.winnerLogo ? `<img src="${game.winnerLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
                             <div class="team-name">${game.winnerTeam}</div>
                             <div class="score">${game.winnerScore}</div>
                         </div>
                         <div class="team-score">
+                            ${game.loserLogo ? `<img src="${game.loserLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
                             <div class="team-name">${game.loserTeam}</div>
                             <div class="score">${game.loserScore}</div>
                         </div>
                         <div class="game-info">
-                            <div>${roundName}</div>
                             <div>Score Digits: (${winnerLastDigit},${loserLastDigit})</div>
                             <div>${gameStatus} | ${new Date(game.date).toLocaleDateString()}</div>
                         </div>
-                        ${isWin ? `<div class="payout-circle">$${payout}</div>` : ''}
-                        <button class="add-to-history-btn" data-game-id="${game.id}" 
-                            ${gameHistory.some(g => g.id === game.id) ? 'disabled' : ''}>
-                            ${gameHistory.some(g => g.id === game.id) ? 'Added' : 'Add to History'}
+                        ${isWin ? `<div class="payout-circle">${payout}</div>` : ''}
+                        <button class="add-to-history-btn" data-game-id="${game.id}"
+                            ${inHistory ? 'disabled' : ''}>
+                            ${inHistory ? 'Added' : 'Add to History'}
                         </button>
                     </div>
                 `;
@@ -988,7 +1364,7 @@
             if (games.length === 0) {
                 apiGamesResults.innerHTML = `
                     <div class="result">
-                        No games found. Try changing the date in settings or check if the 2025 NCAA tournament is active.
+                        No games found. Try changing the date range in settings or check if the 2026 NCAA tournament is active.
                     </div>
                 `;
             }
@@ -1010,7 +1386,7 @@
                         payout: isWin ? payouts[game.round] : 0,
                         isWin,
                         fromApi: true,
-                        year: 2025
+                        year: 2026
                     };
                     
                     addGameToHistoryList(historyGame);
