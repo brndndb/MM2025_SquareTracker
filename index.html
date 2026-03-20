@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NCAA March Madness Squares Tracker 2026</title>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --secondary-color: #ff6600;
+            --background-color: #f5f5f5;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dddddd;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .site-header {
+            background: linear-gradient(135deg, #003d99 0%, #0066cc 60%, #0088ff 100%);
+            border-radius: 12px;
+            padding: 28px 24px 20px;
+            margin-bottom: 24px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+        }
+
+        .site-header h1 {
+            color: #ffffff;
+            margin: 0 0 6px 0;
+            font-size: 28px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .site-header .subtitle {
+            color: rgba(255,255,255,0.82);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-color);
+            border-top: 3px solid var(--primary-color);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .square {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0, 102, 204, 0.35);
+            transition: all 0.2s;
+        }
+
+        button:hover { background-color: #0055aa; transform: translateY(-1px); }
+
+        .total-winnings {
+            font-size: 42px;
+            text-align: center;
+            margin: 10px 0 20px;
+            color: var(--success-color);
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .game-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s;
+        }
+
+        .game-card.win { border-left: 6px solid var(--success-color); background-color: #f9fff9; }
+        .game-card.loss { border-left: 6px solid var(--border-color); }
+
+        .round-badge {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            align-self: flex-start;
+        }
+
+        .scores-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .teams-container { flex: 1; }
+
+        .team-score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+        }
+
+        .team-logo { width: 32px; height: 32px; object-fit: contain; margin-right: 12px; }
+        .team-name { font-weight: 600; flex: 1; font-size: 15px; }
+        .score-val { font-size: 20px; font-weight: 800; margin-left: 60px; }
+
+        .payout-circle {
+            position: absolute;
+            right: 45px;
+            width: 44px;
+            height: 44px;
+            background-color: #e8f5e9;
+            color: var(--success-color);
+            border: 2px solid var(--success-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            z-index: 5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .game-info {
+            border-top: 1px solid #eee;
+            margin-top: 12px;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .tabs { display: flex; border-bottom: 2px solid var(--border-color); margin-bottom: 20px; gap: 4px; }
+        .tab { padding: 10px 18px; cursor: pointer; border: 1px solid transparent; border-radius: 6px 6px 0 0; font-size: 14px; font-weight: 600; color: #666; }
+        .tab.active { background-color: white; border-color: var(--border-color); border-bottom: 3px solid var(--secondary-color); color: var(--primary-color); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        #sticky-winnings-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #e8f5e9;
+            border-bottom: 2px solid #4caf50;
+            padding: 10px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 20px;
+            border-radius: 0 0 8px 8px;
+        }
+
+        @media (max-width: 600px) { .game-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="site-header">
+            <h1>NCAA March Madness Squares Tracker</h1>
+            <p class="subtitle">2026 Tournament Real-Time Scoring</p>
+        </div>
+
+        <div id="sticky-winnings-bar">Current Winnings: $0</div>
+
+        <div class="card">
+            <h2>Your Squares</h2>
+            <p>Square 1: <span class="square">3</span> (Winner) - <span class="square">2</span> (Loser)</p>
+            <p>Square 2: <span class="square">8</span> (Winner) - <span class="square">9</span> (Loser)</p>
+        </div>
+
+        <div class="card">
+            <div class="tabs">
+                <div class="tab active" data-tab="api-games">Live Scoreboard</div>
+                <div class="tab" data-tab="check-manual">Quick Check</div>
+                <div class="tab" data-tab="settings">Settings</div>
+            </div>
+            
+            <div class="tab-content active" id="api-games">
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <div style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Calculated Winnings</div>
+                    <div class="total-winnings" id="total-winnings">$0</div>
+                </div>
+
+                <div class="form-group" style="display:flex; gap:10px; align-items:flex-end;">
+                    <div style="flex:1">
+                        <label for="round-filter">Filter Round</label>
+                        <select id="round-filter">
+                            <option value="0">All Games</option>
+                            <option value="1">Round 1</option>
+                            <option value="2">Round 2</option>
+                            <option value="3">Sweet 16</option>
+                            <option value="4">Elite 8</option>
+                            <option value="5">Final Four</option>
+                            <option value="6">Championship</option>
+                        </select>
+                    </div>
+                    <button id="fetch-games">Refresh Results</button>
+                </div>
+                
+                <div id="api-games-container" class="loading" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Updating scores...</p>
+                </div>
+                
+                <div id="api-games-results" class="game-grid"></div>
+            </div>
+            
+            <div class="tab-content" id="check-manual">
+                <div class="form-group">
+                    <label for="winner-score">Winner Score</label>
+                    <input type="number" id="winner-score" value="73">
+                </div>
+                <div class="form-group">
+                    <label for="loser-score">Loser Score</label>
+                    <input type="number" id="loser-score" value="62">
+                </div>
+                <button id="check-result">Check Win</button>
+                <div id="result-container" style="margin-top:15px;"></div>
+            </div>
+            
+            <div class="tab-content" id="settings">
+                <div class="form-group">
+                    <label for="date-range">Lookback Window (Days)</label>
+                    <select id="date-range">
+                        <option value="1">1 Day</option>
+                        <option value="3" selected>3 Days</option>
+                        <option value="7">1 Week</option>
+                        <option value="21">Full Tournament</option>
+                    </select>
+                </div>
+                <button id="save-settings">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const squares = [
+                { winner: 3, loser: 2 },
+                { winner: 8, loser: 9 }
+            ];
+            const payouts = { 1: 20, 2: 30, 3: 40, 4: 50, 5: 60, 6: 240 };
+            
+            // State
+            let dateRange = localStorage.getItem('ncaaDateRange') || '3';
+            
+            // DOM
+            const apiResultsGrid = document.getElementById('api-games-results');
+            const totalDisplay = document.getElementById('total-winnings');
+            const stickyBar = document.getElementById('sticky-winnings-bar');
+
+            // Initialize
+            setupTabs();
+            fetchTournamentGames();
+
+            document.getElementById('fetch-games').addEventListener('click', fetchTournamentGames);
+            document.getElementById('save-settings').addEventListener('click', () => {
+                dateRange = document.getElementById('date-range').value;
+                localStorage.setItem('ncaaDateRange', dateRange);
+                fetchTournamentGames();
+            });
+
+            function setupTabs() {
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+                        tab.classList.add('active');
+                        document.getElementById(tab.dataset.tab).classList.add('active');
+                    });
+                });
+            }
+
+            function updateWinningsUI(total) {
+                const formatted = `$${total.toLocaleString()}`;
+                totalDisplay.textContent = formatted;
+                stickyBar.textContent = `Current Winnings: ${formatted}`;
+            }
+
+            function fetchTournamentGames() {
+                const loader = document.getElementById('api-games-container');
+                loader.style.display = 'block';
+                apiResultsGrid.innerHTML = '';
+                
+                const today = new Date(); 
+                const dates = [];
+                for(let i = 0; i < parseInt(dateRange); i++) {
+                    const d = new Date(today);
+                    d.setDate(today.getDate() - i);
+                    const y = d.getFullYear();
+                    const m = String(d.getMonth() + 1).padStart(2, '0');
+                    const day = String(d.getDate()).padStart(2, '0');
+                    dates.push(`${y}${m}${day}`);
+                }
+
+                const promises = dates.map(date => {
+                    const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=100&dates=${date}`;
+                    return fetchJSONP(url);
+                });
+
+                Promise.all(promises).then(allData => {
+                    let games = [];
+                    allData.forEach(day => {
+                        if(!day.events) return;
+                        day.events.forEach(event => {
+                            const note = (event.competitions[0].notes || []).find(n => n.headline);
+                            const headline = note ? note.headline.toLowerCase() : "";
+                            const isNcaa = headline.includes('ncaa') && (headline.includes('tournament') || headline.includes('round') || headline.includes('final four') || headline.includes('championship'));
+                            if (!isNcaa) return;
+
+                            const comp = event.competitions[0];
+                            const home = comp.competitors.find(t => t.homeAway === 'home');
+                            const away = comp.competitors.find(t => t.homeAway === 'away');
+                            const hScore = parseInt(home.score);
+                            const aScore = parseInt(away.score);
+                            if (isNaN(hScore) || isNaN(aScore)) return;
+
+                            const [win, lose] = hScore >= aScore ? [home, away] : [away, home];
+                            const r = detectRound(headline);
+
+                            games.push({
+                                id: event.id,
+                                winnerTeam: win.team.displayName,
+                                winnerScore: Math.max(hScore, aScore),
+                                winnerLogo: win.team.logo,
+                                loserTeam: lose.team.displayName,
+                                loserScore: Math.min(hScore, aScore),
+                                loserLogo: lose.team.logo,
+                                status: event.status.type.completed ? 'final' : 'live',
+                                round: r,
+                                date: event.date
+                            });
+                        });
+                    });
+
+                    const unique = Array.from(new Map(games.map(g => [g.id, g])).values());
+                    
+                    // Calculate automatic winnings from the whole fetched set
+                    const total = unique.reduce((sum, g) => {
+                        if (g.status !== 'final') return sum;
+                        const winDigit = g.winnerScore % 10;
+                        const loseDigit = g.loserScore % 10;
+                        const isWin = squares.some(s => s.winner === winDigit && s.loser === loseDigit);
+                        return isWin ? sum + (payouts[g.round] || 20) : sum;
+                    }, 0);
+                    
+                    updateWinningsUI(total);
+
+                    // Apply UI filtering
+                    const filterVal = parseInt(document.getElementById('round-filter').value);
+                    const filtered = unique.filter(g => filterVal === 0 || g.round === filterVal);
+
+                    renderGames(filtered, apiResultsGrid);
+                    loader.style.display = 'none';
+                }).catch(() => loader.style.display = 'none');
+            }
+
+            function detectRound(headline) {
+                if (headline.includes('round of 64') || headline.includes('first round')) return 1;
+                if (headline.includes('round of 32') || headline.includes('second round')) return 2;
+                if (headline.includes('sweet 16') || headline.includes('sixteen')) return 3;
+                if (headline.includes('elite 8') || headline.includes('eight')) return 4;
+                if (headline.includes('final four')) return 5;
+                if (headline.includes('national championship')) return 6;
+                return 1;
+            }
+
+            function renderGames(games, target) {
+                if (games.length === 0) {
+                    target.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color:#888;">No tournament games found for this window.</p>';
+                    return;
+                }
+
+                target.innerHTML = games.map(g => {
+                    const winD = g.winnerScore % 10;
+                    const loseD = g.loserScore % 10;
+                    const isWin = squares.some(s => s.winner === winD && s.loser === loseD);
+                    const roundTag = ['','R1','R2','S16','E8','F4','Champ'][g.round] || 'R1';
+                    const payout = payouts[g.round] || 20;
+
+                    return `
+                        <div class="game-card ${isWin && g.status === 'final' ? 'win' : 'loss'}">
+                            <div class="round-badge">${roundTag} - ${g.status.toUpperCase()}</div>
+                            
+                            <div class="scores-section">
+                                <div class="teams-container">
+                                    <div class="team-score">
+                                        <img src="${g.winnerLogo}" class="team-logo" onerror="this.style.visibility='hidden'">
+                                        <span class="team-name">${g.winnerTeam}</span>
+                                        <span class="score-val">${g.winnerScore}</span>
+                                    </div>
+                                    <div class="team-score">
+                                        <img src="${g.loserLogo}" class="team-logo" onerror="this.style.visibility='hidden'">
+                                        <span class="team-name">${g.loserTeam}</span>
+                                        <span class="score-val">${g.loserScore}</span>
+                                    </div>
+                                </div>
+                                ${isWin && g.status === 'final' ? `<div class="payout-circle">$${payout}</div>` : ''}
+                            </div>
+
+                            <div class="game-info">
+                                <div>Digits: <strong>${winD}-${loseD}</strong></div>
+                                <div>${new Date(g.date).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function manualCheck() {
+                const w = parseInt(document.getElementById('winner-score').value);
+                const l = parseInt(document.getElementById('loser-score').value);
+                const winD = w % 10;
+                const loseD = l % 10;
+                const isWin = squares.some(s => s.winner === winD && s.loser === loseD);
+                const cont = document.getElementById('result-container');
+                cont.innerHTML = isWin ? 
+                    `<div class="card" style="background:#dff0d8; color:#3c763d; border:1px solid #d6e9c6;">MATCH! Digits (${winD}-${loseD}) would win.</div>` : 
+                    `<div class="card" style="background:#f2dede; color:#a94442; border:1px solid #ebccd1;">NO MATCH for (${winD}-${loseD}).</div>`;
+            }
+            document.getElementById('check-result').addEventListener('click', manualCheck);
+
+            function fetchJSONP(url) {
+                return new Promise((resolve, reject) => {
+                    const cb = 'jsonp_' + Math.round(100000 * Math.random());
+                    window[cb] = (data) => {
+                        delete window[cb];
+                        const s = document.getElementById(cb);
+                        if (s) document.body.removeChild(s);
+                        resolve(data);
+                    };
+                    const script = document.createElement('script');
+                    script.id = cb;
+                    script.src = `${url}${url.indexOf('?') >= 0 ? '&' : '?'}callback=${cb}`;
+                    script.onerror = () => reject(new Error('Connection failed'));
+                    document.body.appendChild(script);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
