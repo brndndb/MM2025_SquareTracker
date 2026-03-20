@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NCAA March Madness Squares Tracker</title>
+    <title>NCAA March Madness Squares Tracker 2026</title>
     <style>
         :root {
             --primary-color: #0066cc;
@@ -27,12 +27,8 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
-        }
-
-        h1, h2, h3 {
-            color: var(--primary-color);
         }
 
         .site-header {
@@ -50,25 +46,12 @@
             font-size: 28px;
             letter-spacing: 0.5px;
             text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-            border-bottom: none;
-            padding-bottom: 0;
         }
 
         .site-header .subtitle {
             color: rgba(255,255,255,0.82);
             font-size: 14px;
             margin: 0;
-            letter-spacing: 0.3px;
-        }
-
-        .site-header::after {
-            content: '';
-            display: block;
-            width: 60px;
-            height: 3px;
-            background: var(--secondary-color);
-            border-radius: 2px;
-            margin: 12px auto 0;
         }
 
         .card {
@@ -81,10 +64,12 @@
             border-top: 3px solid var(--primary-color);
         }
 
-        .card:nth-child(2) { border-left-color: var(--primary-color); border-top-color: var(--primary-color); }
-        .card:nth-child(3) { border-left-color: var(--secondary-color); border-top-color: var(--secondary-color); }
-        .card:nth-child(4) { border-left-color: var(--warning-color); border-top-color: var(--warning-color); }
-        .card:nth-child(5) { border-left-color: var(--success-color); border-top-color: var(--success-color); }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
 
         .square {
             display: inline-block;
@@ -96,62 +81,9 @@
             font-weight: bold;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        table, th, td {
-            border: 1px solid var(--border-color);
-        }
-
-        th, td {
-            padding: 12px 14px;
-            text-align: center;
-        }
-
-        th {
-            background-color: var(--primary-color);
-            color: white;
-            font-size: 14px;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-            padding: 14px 14px;
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(0, 102, 204, 0.08);
-        }
-
-        tr:hover td {
-            background-color: rgba(0, 102, 204, 0.04);
-        }
-
-        .championship-row td {
-            background-color: #fff3cd !important;
-            font-weight: bold;
-            color: #b45309;
-            border-left: 3px solid #f59e0b;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input, select, textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input, select { width: 100%; padding: 8px; border: 1px solid var(--border-color); border-radius: 4px; }
 
         button {
             background-color: var(--primary-color);
@@ -162,110 +94,55 @@
             cursor: pointer;
             font-weight: bold;
             box-shadow: 0 2px 6px rgba(0, 102, 204, 0.35);
-            transition: background-color 0.15s, box-shadow 0.15s;
+            transition: all 0.2s;
         }
 
-        button:hover {
-            background-color: #0055aa;
-            box-shadow: 0 4px 10px rgba(0, 102, 204, 0.45);
-        }
-
-        .row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 0 -10px;
-        }
-
-        .col {
-            flex: 1;
-            padding: 0 10px;
-            min-width: 280px;
-        }
-
-        .result {
-            padding: 15px;
-            margin-top: 15px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-
-        .win {
-            background-color: #dff0d8;
-            color: #3c763d;
-            border: 1px solid #d6e9c6;
-        }
-
-        .loss {
-            background-color: #f2dede;
-            color: #a94442;
-            border: 1px solid #ebccd1;
-        }
-
-        .history-item {
-            padding: 10px;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
+        button:hover { background-color: #0055aa; transform: translateY(-1px); }
 
         .total-winnings {
-            font-size: 28px;
+            font-size: 42px;
             text-align: center;
-            margin: 20px 0;
+            margin: 10px 0 20px;
             color: var(--success-color);
             font-weight: bold;
-        }
-
-        .badge {
-            display: inline-block;
-            min-width: 10px;
-            padding: 3px 7px;
-            font-size: 12px;
-            font-weight: bold;
-            line-height: 1;
-            color: #fff;
-            text-align: center;
-            white-space: nowrap;
-            vertical-align: middle;
-            background-color: var(--secondary-color);
-            border-radius: 10px;
-            margin-left: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .game-card {
+            background: #fff;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 15px 15px 40px 15px;
-            margin-bottom: 10px;
+            padding: 15px;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.2s;
         }
 
-        .game-card.win {
-            border-left: 5px solid var(--success-color);
-        }
-
-        .game-card.loss {
-            border-left: 5px solid var(--error-color);
-        }
+        .game-card.win { border-left: 6px solid var(--success-color); background-color: #f9fff9; }
+        .game-card.loss { border-left: 6px solid var(--border-color); }
 
         .round-badge {
             display: inline-block;
             background-color: var(--primary-color);
             color: white;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            padding: 2px 9px;
-            border-radius: 20px;
-            letter-spacing: 0.4px;
+            padding: 2px 8px;
+            border-radius: 4px;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            align-self: flex-start;
         }
 
-        .game-card.win .round-badge {
-            background-color: var(--success-color);
+        .scores-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
         }
+
+        .teams-container { flex: 1; }
 
         .team-score {
             display: flex;
@@ -274,132 +151,44 @@
             padding: 4px 0;
         }
 
-        .team-score + .team-score {
-            border-top: 1px solid var(--border-color);
-            margin-top: 2px;
-            padding-top: 6px;
-        }
+        .team-logo { width: 32px; height: 32px; object-fit: contain; margin-right: 12px; }
+        .team-name { font-weight: 600; flex: 1; font-size: 15px; }
+        .score-val { font-size: 20px; font-weight: 800; margin-left: 60px; }
 
-        .team-logo {
-            width: 28px;
-            height: 28px;
-            object-fit: contain;
-            margin-right: 8px;
-            flex-shrink: 0;
-        }
-
-        .team-logo-placeholder {
-            width: 28px;
-            height: 28px;
-            margin-right: 8px;
-            flex-shrink: 0;
-        }
-
-        .team-name {
-            font-weight: bold;
-            flex: 1;
-        }
-
-        .score {
-            font-size: 18px;
-            font-weight: bold;
+        .payout-circle {
+            position: absolute;
+            right: 45px;
+            width: 44px;
+            height: 44px;
+            background-color: #e8f5e9;
+            color: var(--success-color);
+            border: 2px solid var(--success-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 900;
+            z-index: 5;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .game-info {
+            border-top: 1px solid #eee;
+            margin-top: 12px;
+            padding-top: 10px;
             display: flex;
             justify-content: space-between;
-            color: #555;
-            font-size: 13px;
-            margin-top: 10px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(0, 0, 0, 0.1);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary-color);
-            animation: spin 1s linear infinite;
-        }
-
-        .tabs {
-            display: flex;
-            border-bottom: 2px solid var(--border-color);
-            margin-bottom: 20px;
-            gap: 4px;
-        }
-
-        .tab {
-            padding: 10px 18px;
-            cursor: pointer;
-            margin-right: 0;
-            border: 1px solid transparent;
-            border-bottom: none;
-            border-radius: 6px 6px 0 0;
-            font-size: 15px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #666;
-            transition: background-color 0.15s, color 0.15s;
-        }
-
-        .tab:hover:not(.active) {
-            background-color: rgba(0, 102, 204, 0.07);
-            color: var(--primary-color);
-        }
-
-        .tab.active {
-            background-color: white;
-            border-color: var(--border-color);
-            border-bottom: 3px solid var(--secondary-color);
-            margin-bottom: -2px;
-            color: var(--primary-color);
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        .api-key-container {
-            margin-bottom: 20px;
-        }
-
-        .payout-circle {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background-color: var(--success-color);
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            font-weight: bold;
-            position: absolute;
-            right: 12px;
-            bottom: 12px;
-        }
-
-        .add-to-history-btn {
-            margin-top: 10px;
-            padding: 5px 10px;
+            align-items: center;
             font-size: 12px;
+            color: #666;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        .tabs { display: flex; border-bottom: 2px solid var(--border-color); margin-bottom: 20px; gap: 4px; }
+        .tab { padding: 10px 18px; cursor: pointer; border: 1px solid transparent; border-radius: 6px 6px 0 0; font-size: 14px; font-weight: 600; color: #666; }
+        .tab.active { background-color: white; border-color: var(--border-color); border-bottom: 3px solid var(--secondary-color); color: var(--primary-color); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         #sticky-winnings-bar {
             position: sticky;
@@ -416,1004 +205,292 @@
             border-radius: 0 0 8px 8px;
         }
 
-        @media (max-width: 768px) {
-            .col {
-                flex: 100%;
-                margin-bottom: 20px;
-            }
-        }
+        @media (max-width: 600px) { .game-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="site-header">
             <h1>NCAA March Madness Squares Tracker</h1>
-            <p class="subtitle">Track your NCAA March Madness squares</p>
+            <p class="subtitle">2026 Tournament Real-Time Scoring</p>
         </div>
 
-        <div id="sticky-winnings-bar">Total Winnings: $0</div>
+        <div id="sticky-winnings-bar">Current Winnings: $0</div>
 
         <div class="card">
             <h2>Your Squares</h2>
-            <p>
-                Square 1: <span class="square">9</span> (Winner) - <span class="square">0</span> (Loser)
-            </p>
-            <p>
-                Square 2: <span class="square">3</span> (Winner) - <span class="square">7</span> (Loser)
-            </p>
-        </div>
-
-        <div class="card">
-            <h2>Payout Table</h2>
-            <table id="payoutTable">
-                <thead>
-                    <tr>
-                        <th>Round</th>
-                        <th>Payout ($)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Round 1</td>
-                        <td>$20</td>
-                    </tr>
-                    <tr>
-                        <td>Round 2</td>
-                        <td>$30</td>
-                    </tr>
-                    <tr>
-                        <td>Round 3</td>
-                        <td>$40</td>
-                    </tr>
-                    <tr>
-                        <td>Round 4</td>
-                        <td>$50</td>
-                    </tr>
-                    <tr>
-                        <td>Round 5</td>
-                        <td>$60</td>
-                    </tr>
-                    <tr class="championship-row">
-                        <td>Championship</td>
-                        <td>$240</td>
-                    </tr>
-                </tbody>
-            </table>
+            <p>Square 1: <span class="square">3</span> (Winner) - <span class="square">2</span> (Loser)</p>
+            <p>Square 2: <span class="square">8</span> (Winner) - <span class="square">9</span> (Loser)</p>
         </div>
 
         <div class="card">
             <div class="tabs">
-                <div class="tab active" data-tab="api-games">API Games</div>
-                <div class="tab" data-tab="check-manual">Check Manually</div>
-                <div class="tab" data-tab="add-manual">Add Game Manually</div>
-                <div class="tab" data-tab="settings">Tournament Settings</div>
+                <div class="tab active" data-tab="api-games">Live Scoreboard</div>
+                <div class="tab" data-tab="check-manual">Quick Check</div>
+                <div class="tab" data-tab="settings">Settings</div>
             </div>
             
             <div class="tab-content active" id="api-games">
-                <h2>Latest Tournament Games</h2>
-                <p>Automatically fetch the latest NCAA Tournament games and check if your squares win!</p>
-                
-                <div class="form-group">
-                    <label for="round-filter">Filter by Round</label>
-                    <select id="round-filter">
-                        <option value="0">All Rounds</option>
-                        <option value="1">First Round (Round of 64)</option>
-                        <option value="2">Second Round (Round of 32)</option>
-                        <option value="3">Sweet 16</option>
-                        <option value="4">Elite 8</option>
-                        <option value="5">Final Four</option>
-                        <option value="6">Championship</option>
-                    </select>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <div style="font-size: 14px; color: #666; text-transform: uppercase; letter-spacing: 1px;">Calculated Winnings</div>
+                    <div class="total-winnings" id="total-winnings">$0</div>
                 </div>
-                
-                <div class="form-group">
-                    <label>
-                        <input type="checkbox" id="live-games-only" />
-                        Show live games only
-                    </label>
+
+                <div class="form-group" style="display:flex; gap:10px; align-items:flex-end;">
+                    <div style="flex:1">
+                        <label for="round-filter">Filter Round</label>
+                        <select id="round-filter">
+                            <option value="0">All Games</option>
+                            <option value="1">Round 1</option>
+                            <option value="2">Round 2</option>
+                            <option value="3">Sweet 16</option>
+                            <option value="4">Elite 8</option>
+                            <option value="5">Final Four</option>
+                            <option value="6">Championship</option>
+                        </select>
+                    </div>
+                    <button id="fetch-games">Refresh Results</button>
                 </div>
-                
-                <button id="fetch-games">Fetch Tournament Games</button>
-                <div id="last-updated" style="margin-top: 10px; font-size: 12px; color: #666;"></div>
                 
                 <div id="api-games-container" class="loading" style="display: none;">
                     <div class="spinner"></div>
-                    <p>Loading games...</p>
+                    <p>Updating scores...</p>
                 </div>
                 
-                <div id="api-games-results"></div>
-                <div id="api-debug" style="display: none;"></div>
+                <div id="api-games-results" class="game-grid"></div>
             </div>
             
             <div class="tab-content" id="check-manual">
-                <h2>Check Game Result</h2>
                 <div class="form-group">
                     <label for="winner-score">Winner Score</label>
-                    <input type="number" id="winner-score" min="0" value="0">
+                    <input type="number" id="winner-score" value="73">
                 </div>
                 <div class="form-group">
                     <label for="loser-score">Loser Score</label>
-                    <input type="number" id="loser-score" min="0" value="0">
+                    <input type="number" id="loser-score" value="62">
                 </div>
-                <div class="form-group">
-                    <label for="game-round">Round</label>
-                    <select id="game-round">
-                        <option value="1">Round 1</option>
-                        <option value="2">Round 2</option>
-                        <option value="3">Sweet 16</option>
-                        <option value="4">Elite 8</option>
-                        <option value="5">Final Four</option>
-                        <option value="6">Championship</option>
-                    </select>
-                </div>
-                <button id="check-result">Check Result</button>
-                
-                <div id="result-container"></div>
-            </div>
-            
-            <div class="tab-content" id="add-manual">
-                <h2>Add Game to History</h2>
-                <div class="form-group">
-                    <label for="team1">Winning Team</label>
-                    <input type="text" id="team1" placeholder="e.g., Duke">
-                </div>
-                <div class="form-group">
-                    <label for="team1-score">Score</label>
-                    <input type="number" id="team1-score" min="0" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="team2">Losing Team</label>
-                    <input type="text" id="team2" placeholder="e.g., Kentucky">
-                </div>
-                <div class="form-group">
-                    <label for="team2-score">Score</label>
-                    <input type="number" id="team2-score" min="0" value="0">
-                </div>
-                <div class="form-group">
-                    <label for="history-round">Round</label>
-                    <select id="history-round">
-                        <option value="1">Round 1</option>
-                        <option value="2">Round 2</option>
-                        <option value="3">Sweet 16</option>
-                        <option value="4">Elite 8</option>
-                        <option value="5">Final Four</option>
-                        <option value="6">Championship</option>
-                    </select>
-                </div>
-                <button id="add-to-history">Add Game</button>
+                <button id="check-result">Check Win</button>
+                <div id="result-container" style="margin-top:15px;"></div>
             </div>
             
             <div class="tab-content" id="settings">
-                <h2>Tournament Settings</h2>
                 <div class="form-group">
-                    <label for="tournament-year">Tournament Year</label>
-                    <select id="tournament-year">
-                        <option value="2026" selected>2026</option>
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                        <option value="2023">2023</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="date-range">Date Range</label>
+                    <label for="date-range">Lookback Window (Days)</label>
                     <select id="date-range">
-                        <option value="1">1 day</option>
-                        <option value="3" selected>3 days</option>
-                        <option value="7">7 days</option>
-                        <option value="14">2 weeks</option>
-                        <option value="21">3 weeks (entire tournament)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="tournament-dates">Tournament Start Date</label>
-                    <select id="tournament-dates">
-                        <option value="20260319">March 19, 2026 (Start of Tournament)</option>
-                        <option value="20260318">March 18, 2026</option>
-                        <option value="20260317">March 17, 2026</option>
-                        <option value="20250320">March 20, 2025 (Start of Tournament)</option>
-                        <option value="20250319">March 19, 2025</option>
-                        <option value="20250318">March 18, 2025</option>
-                        <option value="20240321">March 21, 2024</option>
-                        <option value="20240320">March 20, 2024</option>
-                        <option value="20240319">March 19, 2024</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="auto-refresh">Auto-Refresh Interval (minutes)</label>
-                    <select id="auto-refresh">
-                        <option value="0">Off</option>
-                        <option value="5">5 minutes</option>
-                        <option value="10">10 minutes</option>
-                        <option value="30">30 minutes</option>
-                        <option value="60">1 hour</option>
+                        <option value="1">1 Day</option>
+                        <option value="3" selected>3 Days</option>
+                        <option value="7">1 Week</option>
+                        <option value="21">Full Tournament</option>
                     </select>
                 </div>
                 <button id="save-settings">Save Settings</button>
-                <div class="form-group" style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 20px;">
-                    <button id="reset-all-data" style="background-color: var(--error-color);">Reset All Data</button>
-                    <p><small>This will clear all game history and reset your winnings to $0.</small></p>
-                </div>
-                <p><small>Data provided by ESPN NCAA Tournament API - no API key required</small></p>
             </div>
-        </div>
-        
-        <div class="card">
-            <h2>Game History <span class="badge" id="history-count">0</span></h2>
-            <div style="text-align:center; font-size:13px; color:#888; margin-bottom:4px; text-transform:uppercase; letter-spacing:0.5px;">Season Total</div>
-            <div class="total-winnings" id="total-winnings">$0</div>
-            <div id="game-history"></div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        // Constants
-        const squares = [
-            { winner: 3, loser: 2 },
-            { winner: 8, loser: 9 }
-        ];
-        
-        const payouts = {
-            1: 20,  // Round 1
-            2: 30,  // Round 2
-            3: 40,  // Sweet 16
-            4: 50,  // Elite 8
-            5: 60,  // Final Four
-            6: 240  // Championship
-        };
-        
-        // State
-        let gameHistory = [];
-        let totalWinnings = 0;
-        let tournamentYear = '2026'; // Fixed to 2026
-        let tournamentDate = localStorage.getItem('ncaaTournamentDate') || '20260319'; // Today's date by default
-        let dateRange = localStorage.getItem('ncaaDateRange') || '3'; // Default to 3 days
-        let autoRefreshInterval = localStorage.getItem('ncaaAutoRefresh') || '0';
-        let refreshTimerId = null;
-        let allFetchedGames = []; // Store all fetched games to avoid duplicates
-        
-
-        
-        // DOM Elements
-        const checkResultBtn = document.getElementById('check-result');
-        const resultContainer = document.getElementById('result-container');
-        const addToHistoryBtn = document.getElementById('add-to-history');
-        const gameHistoryContainer = document.getElementById('game-history');
-        const totalWinningsElement = document.getElementById('total-winnings');
-        const historyCountElement = document.getElementById('history-count');
-        const fetchGamesBtn = document.getElementById('fetch-games');
-        const apiGamesContainer = document.getElementById('api-games-container');
-        const apiGamesResults = document.getElementById('api-games-results');
-        const apiDebugElement = document.getElementById('api-debug');
-        const saveSettingsBtn = document.getElementById('save-settings');
-        const roundFilter = document.getElementById('round-filter');
-        const liveGamesOnlyCheckbox = document.getElementById('live-games-only');
-        const lastUpdatedElement = document.getElementById('last-updated');
-        const autoRefreshSelect = document.getElementById('auto-refresh');
-        const dateRangeSelect = document.getElementById('date-range');
-        
-        // Tab functionality
-        const tabs = document.querySelectorAll('.tab');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabId = tab.getAttribute('data-tab');
-                tabs.forEach(t => t.classList.remove('active'));
-                tabContents.forEach(c => c.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-        
-        // Initialize settings - set tournament year to 2026 only
-        if (document.getElementById('tournament-year')) {
-            document.getElementById('tournament-year').value = '2026';
-            document.getElementById('tournament-year').disabled = true; // Disable year selection
-        }
-
-        if (document.getElementById('tournament-dates')) {
-            document.getElementById('tournament-dates').value = tournamentDate;
-            // Filter out non-2026 options
-            Array.from(document.getElementById('tournament-dates').options).forEach(option => {
-                if (!option.value.startsWith('2026')) {
-                    option.disabled = true;
-                }
-            });
-        }
-        
-        if (document.getElementById('date-range')) {
-            document.getElementById('date-range').value = dateRange;
-        }
-        
-        document.getElementById('auto-refresh').value = autoRefreshInterval;
-        
-        // Event Listeners
-        checkResultBtn.addEventListener('click', checkResult);
-        addToHistoryBtn.addEventListener('click', addGameToHistory);
-        fetchGamesBtn.addEventListener('click', fetchTournamentGames);
-        saveSettingsBtn.addEventListener('click', saveSettings);
-        
-        setupAutoRefresh();
-        initializeFromStorage();
-        clearPreviousYearHistory();
-        
-        function initializeFromStorage() {
-            const savedHistory = localStorage.getItem('ncaaSquaresHistory');
-            const savedWinnings = localStorage.getItem('ncaaSquaresTotalWinnings');
-            if (savedHistory) {
-                gameHistory = JSON.parse(savedHistory);
-                updateHistoryDisplay();
-            }
-            if (savedWinnings) {
-                totalWinnings = parseFloat(savedWinnings);
-                updateWinningsDisplay();
-            }
-        }
-        
-        function clearPreviousYearHistory() {
-            // Filter out games from years before 2026
-            const oldHistoryLength = gameHistory.length;
-
-            // Filter to keep only 2026 games
-            gameHistory = gameHistory.filter(game => {
-                // Check if game has a year property set to 2026
-                if (game.year === 2026) {
-                    return true;
-                }
-
-                // If no year property, check the date
-                if (game.date) {
-                    const gameYear = new Date(game.date).getFullYear();
-                    return gameYear === 2026;
-                }
-
-                // If we can't determine the year, remove it
-                return false;
-            });
+            const squares = [
+                { winner: 3, loser: 2 },
+                { winner: 8, loser: 9 }
+            ];
+            const payouts = { 1: 20, 2: 30, 3: 40, 4: 50, 5: 60, 6: 240 };
             
-            // Recalculate total winnings
-            totalWinnings = 0;
-            gameHistory.forEach(game => {
-                if (game.isWin) {
-                    totalWinnings += game.payout;
-                }
-            });
+            // State
+            let dateRange = localStorage.getItem('ncaaDateRange') || '3';
             
-            // Update displays
-            updateHistoryDisplay();
-            updateWinningsDisplay();
-            saveToStorage();
-            
-            // Optionally, notify the user how many games were removed
-            const removedCount = oldHistoryLength - gameHistory.length;
-            if (removedCount > 0) {
-                alert(`Removed ${removedCount} games from previous years. Only showing 2026 tournament games.`);
-            }
-        }
+            // DOM
+            const apiResultsGrid = document.getElementById('api-games-results');
+            const totalDisplay = document.getElementById('total-winnings');
+            const stickyBar = document.getElementById('sticky-winnings-bar');
 
-        function saveToStorage() {
-            localStorage.setItem('ncaaSquaresHistory', JSON.stringify(gameHistory));
-            localStorage.setItem('ncaaSquaresTotalWinnings', totalWinnings.toString());
-        }
-        
-        function saveSettings() {
-            // Tournament year is fixed to 2026
-            if (document.getElementById('tournament-dates')) {
-                tournamentDate = document.getElementById('tournament-dates').value;
-                localStorage.setItem('ncaaTournamentDate', tournamentDate);
-            }
-            
-            if (document.getElementById('date-range')) {
+            // Initialize
+            setupTabs();
+            fetchTournamentGames();
+
+            document.getElementById('fetch-games').addEventListener('click', fetchTournamentGames);
+            document.getElementById('save-settings').addEventListener('click', () => {
                 dateRange = document.getElementById('date-range').value;
                 localStorage.setItem('ncaaDateRange', dateRange);
-            }
-            
-            autoRefreshInterval = document.getElementById('auto-refresh').value;
-            localStorage.setItem('ncaaAutoRefresh', autoRefreshInterval);
-            setupAutoRefresh();
-            alert('Settings saved successfully! Year is fixed to 2026 March Madness.');
-            
-            // Clear fetched games cache when settings change
-            allFetchedGames = [];
-            
-            // Refresh games with new settings
-            fetchTournamentGames();
-        }
-        
-        function setupAutoRefresh() {
-            if (refreshTimerId) clearInterval(refreshTimerId);
-            const interval = parseInt(autoRefreshInterval);
-            if (interval > 0) {
-                refreshTimerId = setInterval(fetchTournamentGames, interval * 60 * 1000);
-            }
-        }
-        
-        function checkResult() {
-            const winnerScore = parseInt(document.getElementById('winner-score').value);
-            const loserScore = parseInt(document.getElementById('loser-score').value);
-            const round = parseInt(document.getElementById('game-round').value);
-            
-            if (isNaN(winnerScore) || isNaN(loserScore)) {
-                showResult('Please enter valid scores', false);
-                return;
-            }
-            
-            const winnerLastDigit = winnerScore % 10;
-            const loserLastDigit = loserScore % 10;
-            
-            const winningSquare = squares.find(square => 
-                square.winner === winnerLastDigit && square.loser === loserLastDigit
-            );
-            
-            if (winningSquare) {
-                const payout = payouts[round];
-                showResult(`You win $${payout}! Your square (${winnerLastDigit},${loserLastDigit}) matches (${winnerScore}-${loserScore}).`, true, payout);
-            } else {
-                showResult(`No win. (${winnerLastDigit},${loserLastDigit}) doesn't match your squares.`, false);
-            }
-        }
-        
-        function showResult(message, isWin, payout = 0) {
-            resultContainer.innerHTML = `<div class="result ${isWin ? 'win' : 'loss'}">${message}</div>`;
-        }
-        
-        function addGameToHistory() {
-            const team1 = document.getElementById('team1').value;
-            const team1Score = parseInt(document.getElementById('team1-score').value);
-            const team2 = document.getElementById('team2').value;
-            const team2Score = parseInt(document.getElementById('team2-score').value);
-            const round = parseInt(document.getElementById('history-round').value);
-            
-            if (!team1 || !team2 || isNaN(team1Score) || isNaN(team2Score)) {
-                alert('Please enter all game information');
-                return;
-            }
-            
-            const [winnerTeam, winnerScore, loserTeam, loserScore] = 
-                team1Score > team2Score 
-                    ? [team1, team1Score, team2, team2Score]
-                    : [team2, team2Score, team1, team1Score];
-                    
-            const winnerLastDigit = winnerScore % 10;
-            const loserLastDigit = loserScore % 10;
-            
-            const isWin = squares.some(square => 
-                square.winner === winnerLastDigit && square.loser === loserLastDigit
-            );
-            
-            const payout = isWin ? payouts[round] : 0;
-            
-            const game = {
-                id: Date.now().toString(),
-                winnerTeam,
-                winnerScore,
-                loserTeam,
-                loserScore,
-                round,
-                payout,
-                isWin,
-                date: new Date().toISOString(),
-                fromApi: false,
-                year: 2026 // Add year info
-            };
+                fetchTournamentGames();
+            });
 
-            addGameToHistoryList(game);
-            
-            document.getElementById('team1').value = '';
-            document.getElementById('team1-score').value = '0';
-            document.getElementById('team2').value = '';
-            document.getElementById('team2-score').value = '0';
-        }
-        
-        function addGameToHistoryList(game) {
-            const existingGameIndex = gameHistory.findIndex(g => g.id === game.id);
-            if (existingGameIndex !== -1) {
-                gameHistory[existingGameIndex] = game;
-            } else {
-                gameHistory.unshift(game);
-                if (game.isWin) {
-                    totalWinnings += game.payout;
-                    updateWinningsDisplay();
-                }
+            function setupTabs() {
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
+                        tab.classList.add('active');
+                        document.getElementById(tab.dataset.tab).classList.add('active');
+                    });
+                });
             }
-            updateHistoryDisplay();
-            saveToStorage();
-        }
-        
-        function updateHistoryDisplay() {
-            gameHistoryContainer.innerHTML = gameHistory.length === 0 
-                ? '<p>No games in history yet.</p>'
-                : gameHistory.map(game => {
-                    const winnerLastDigit = game.winnerScore % 10;
-                    const loserLastDigit = game.loserScore % 10;
-                    const roundName = {
-                        1: 'Round 1', 2: 'Round 2', 3: 'Sweet 16',
-                        4: 'Elite 8', 5: 'Final Four', 6: 'Championship'
-                    }[game.round] || `Round ${game.round}`;
+
+            function updateWinningsUI(total) {
+                const formatted = `$${total.toLocaleString()}`;
+                totalDisplay.textContent = formatted;
+                stickyBar.textContent = `Current Winnings: ${formatted}`;
+            }
+
+            function fetchTournamentGames() {
+                const loader = document.getElementById('api-games-container');
+                loader.style.display = 'block';
+                apiResultsGrid.innerHTML = '';
+                
+                const today = new Date(); 
+                const dates = [];
+                for(let i = 0; i < parseInt(dateRange); i++) {
+                    const d = new Date(today);
+                    d.setDate(today.getDate() - i);
+                    const y = d.getFullYear();
+                    const m = String(d.getMonth() + 1).padStart(2, '0');
+                    const day = String(d.getDate()).padStart(2, '0');
+                    dates.push(`${y}${m}${day}`);
+                }
+
+                const promises = dates.map(date => {
+                    const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=100&dates=${date}`;
+                    return fetchJSONP(url);
+                });
+
+                Promise.all(promises).then(allData => {
+                    let games = [];
+                    allData.forEach(day => {
+                        if(!day.events) return;
+                        day.events.forEach(event => {
+                            const note = (event.competitions[0].notes || []).find(n => n.headline);
+                            const headline = note ? note.headline.toLowerCase() : "";
+                            const isNcaa = headline.includes('ncaa') && (headline.includes('tournament') || headline.includes('round') || headline.includes('final four') || headline.includes('championship'));
+                            if (!isNcaa) return;
+
+                            const comp = event.competitions[0];
+                            const home = comp.competitors.find(t => t.homeAway === 'home');
+                            const away = comp.competitors.find(t => t.homeAway === 'away');
+                            const hScore = parseInt(home.score);
+                            const aScore = parseInt(away.score);
+                            if (isNaN(hScore) || isNaN(aScore)) return;
+
+                            const [win, lose] = hScore >= aScore ? [home, away] : [away, home];
+                            const r = detectRound(headline);
+
+                            games.push({
+                                id: event.id,
+                                winnerTeam: win.team.displayName,
+                                winnerScore: Math.max(hScore, aScore),
+                                winnerLogo: win.team.logo,
+                                loserTeam: lose.team.displayName,
+                                loserScore: Math.min(hScore, aScore),
+                                loserLogo: lose.team.logo,
+                                status: event.status.type.completed ? 'final' : 'live',
+                                round: r,
+                                date: event.date
+                            });
+                        });
+                    });
+
+                    const unique = Array.from(new Map(games.map(g => [g.id, g])).values());
                     
+                    // Calculate automatic winnings from the whole fetched set
+                    const total = unique.reduce((sum, g) => {
+                        if (g.status !== 'final') return sum;
+                        const winDigit = g.winnerScore % 10;
+                        const loseDigit = g.loserScore % 10;
+                        const isWin = squares.some(s => s.winner === winDigit && s.loser === loseDigit);
+                        return isWin ? sum + (payouts[g.round] || 20) : sum;
+                    }, 0);
+                    
+                    updateWinningsUI(total);
+
+                    // Apply UI filtering
+                    const filterVal = parseInt(document.getElementById('round-filter').value);
+                    const filtered = unique.filter(g => filterVal === 0 || g.round === filterVal);
+
+                    renderGames(filtered, apiResultsGrid);
+                    loader.style.display = 'none';
+                }).catch(() => loader.style.display = 'none');
+            }
+
+            function detectRound(headline) {
+                if (headline.includes('round of 64') || headline.includes('first round')) return 1;
+                if (headline.includes('round of 32') || headline.includes('second round')) return 2;
+                if (headline.includes('sweet 16') || headline.includes('sixteen')) return 3;
+                if (headline.includes('elite 8') || headline.includes('eight')) return 4;
+                if (headline.includes('final four')) return 5;
+                if (headline.includes('national championship')) return 6;
+                return 1;
+            }
+
+            function renderGames(games, target) {
+                if (games.length === 0) {
+                    target.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color:#888;">No tournament games found for this window.</p>';
+                    return;
+                }
+
+                target.innerHTML = games.map(g => {
+                    const winD = g.winnerScore % 10;
+                    const loseD = g.loserScore % 10;
+                    const isWin = squares.some(s => s.winner === winD && s.loser === loseD);
+                    const roundTag = ['','R1','R2','S16','E8','F4','Champ'][g.round] || 'R1';
+                    const payout = payouts[g.round] || 20;
+
                     return `
-                        <div class="history-item">
-                            <div class="game-card ${game.isWin ? 'win' : 'loss'}">
-                                <div class="round-badge">${roundName}</div>
-                                <div class="team-score">
-                                    ${game.winnerLogo ? `<img src="${game.winnerLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
-                                    <div class="team-name">${game.winnerTeam}</div>
-                                    <div class="score">${game.winnerScore}</div>
+                        <div class="game-card ${isWin && g.status === 'final' ? 'win' : 'loss'}">
+                            <div class="round-badge">${roundTag} - ${g.status.toUpperCase()}</div>
+                            
+                            <div class="scores-section">
+                                <div class="teams-container">
+                                    <div class="team-score">
+                                        <img src="${g.winnerLogo}" class="team-logo" onerror="this.style.visibility='hidden'">
+                                        <span class="team-name">${g.winnerTeam}</span>
+                                        <span class="score-val">${g.winnerScore}</span>
+                                    </div>
+                                    <div class="team-score">
+                                        <img src="${g.loserLogo}" class="team-logo" onerror="this.style.visibility='hidden'">
+                                        <span class="team-name">${g.loserTeam}</span>
+                                        <span class="score-val">${g.loserScore}</span>
+                                    </div>
                                 </div>
-                                <div class="team-score">
-                                    ${game.loserLogo ? `<img src="${game.loserLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
-                                    <div class="team-name">${game.loserTeam}</div>
-                                    <div class="score">${game.loserScore}</div>
-                                </div>
-                                <div class="game-info">
-                                    <div>Score Digits: (${winnerLastDigit},${loserLastDigit})</div>
-                                    <div>${new Date(game.date).toLocaleDateString()}</div>
-                                </div>
-                                ${game.isWin ? `<div class="payout-circle">$${game.payout}</div>` : ''}
-                                ${game.fromApi ? '<div style="margin-top:5px;"><small><i>Added from API</i></small></div>' : ''}
+                                ${isWin && g.status === 'final' ? `<div class="payout-circle">$${payout}</div>` : ''}
+                            </div>
+
+                            <div class="game-info">
+                                <div>Digits: <strong>${winD}-${loseD}</strong></div>
+                                <div>${new Date(g.date).toLocaleDateString()}</div>
                             </div>
                         </div>
                     `;
                 }).join('');
-            historyCountElement.textContent = gameHistory.length;
-        }
-        
-        function updateWinningsDisplay() {
-            const formatted = '$' + totalWinnings.toLocaleString();
-            totalWinningsElement.textContent = formatted;
-            const stickyBar = document.getElementById('sticky-winnings-bar');
-            if (stickyBar) {
-                stickyBar.textContent = 'Total Winnings: ' + formatted;
             }
-        }
-        
-        function fetchTournamentGames() {
-            apiGamesContainer.style.display = 'block';
-            apiGamesResults.innerHTML = '';
-            apiDebugElement.textContent = '';
-            
-            const roundFilterValue = parseInt(roundFilter.value);
-            const liveGamesOnly = liveGamesOnlyCheckbox.checked;
-            
-            // Clear previously fetched games when manually triggering a fetch
-            if (event && event.type === 'click') {
-                allFetchedGames = [];
+
+            function manualCheck() {
+                const w = parseInt(document.getElementById('winner-score').value);
+                const l = parseInt(document.getElementById('loser-score').value);
+                const winD = w % 10;
+                const loseD = l % 10;
+                const isWin = squares.some(s => s.winner === winD && s.loser === loseD);
+                const cont = document.getElementById('result-container');
+                cont.innerHTML = isWin ? 
+                    `<div class="card" style="background:#dff0d8; color:#3c763d; border:1px solid #d6e9c6;">MATCH! Digits (${winD}-${loseD}) would win.</div>` : 
+                    `<div class="card" style="background:#f2dede; color:#a94442; border:1px solid #ebccd1;">NO MATCH for (${winD}-${loseD}).</div>`;
             }
-            
-            // Get date range for fetching multiple days of games
-            const startDate = document.getElementById('tournament-dates') ? 
-                document.getElementById('tournament-dates').value : tournamentDate;
-            const days = parseInt(dateRange);
-            
-            // Generate array of dates to fetch (tournament typically spans 3 weeks)
-            const datesToFetch = generateDateRange(startDate, days);
-            
-            // Debug info
-            apiDebugElement.textContent = `Fetching games for dates: ${datesToFetch.join(', ')}`;
-            
-            // Create an array of promises for each date
-            const fetchPromises = datesToFetch.map(date => fetchESPNGamesForDate(date));
-            
-            // Wait for all fetch operations to complete
-            Promise.all(fetchPromises)
-                .then(resultsArray => {
-                    // Combine all results and remove duplicates
-                    let allGames = [].concat(...resultsArray)
-                        .filter((game, index, self) => 
-                            index === self.findIndex(g => g.id === game.id)
-                        );
-                    
-                    // No demo games - using real data only
-                    
-                    // Store games to avoid duplicates in future fetches
-                    allFetchedGames = [...allGames];
-                    
-                    // Apply filters
-                    let filteredGames = allGames;
-                    
-                    if (roundFilterValue > 0) {
-                        filteredGames = filteredGames.filter(game => game.round === roundFilterValue);
-                    }
-                    
-                    if (liveGamesOnly) {
-                        filteredGames = filteredGames.filter(game => game.status === 'live');
-                    }
-                    
-                    apiGamesContainer.style.display = 'none';
-                    
-                    if (filteredGames.length === 0) {
-                        apiGamesResults.innerHTML = `
-                            <div class="result">
-                                No games found for the selected filters. Try changing the tournament date in settings.
-                            </div>
-                        `;
-                    } else {
-                        displayApiGames(filteredGames);
-                    }
-                    
-                    lastUpdatedElement.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-                })
-                .catch(error => {
-                    apiGamesContainer.style.display = 'none';
-                    apiGamesResults.innerHTML = `
-                        <div class="result loss">
-                            Error fetching games: ${error.message}
-                        </div>
-                    `;
-                });
-        }
-        
-        function generateDateRange(startDateStr, days) {
-            const dates = [];
-            let currentDate = new Date(
-                startDateStr.substring(0, 4), 
-                parseInt(startDateStr.substring(4, 6)) - 1, 
-                startDateStr.substring(6, 8)
-            );
-            
-            for (let i = 0; i < days; i++) {
-                const year = currentDate.getFullYear();
-                const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-                const day = String(currentDate.getDate()).padStart(2, '0');
-                dates.push(`${year}${month}${day}`);
-                
-                // Move to next day
-                currentDate.setDate(currentDate.getDate() + 1);
-            }
-            
-            return dates;
-        }
-        
-        // Enhanced round detection function
-        function detectTournamentRound(event) {
-            // First check if the event name contains round information
-            if (event.name) {
-                // Check for exact round names in the event name
-                const roundKeywords = {
-                    'First Round': 1,
-                    'Round of 64': 1,
-                    'Second Round': 2,
-                    'Round of 32': 2,
-                    'Sweet 16': 3,
-                    'Sweet Sixteen': 3,
-                    'Elite Eight': 4,
-                    'Elite 8': 4,
-                    'Final Four': 5,
-                    'National Championship': 6,
-                    'Championship Game': 6
-                };
-                
-                // Check for exact matches in full name
-                for (const [keyword, roundNumber] of Object.entries(roundKeywords)) {
-                    if (event.name.includes(keyword)) {
-                        return roundNumber;
-                    }
-                }
-                
-                // If name has format "Team1 vs Team2 - Round", extract the round part
-                if (event.name.includes(" - ")) {
-                    const parts = event.name.split(" - ");
-                    if (parts.length > 1) {
-                        const roundText = parts[1].trim();
-                        if (roundKeywords[roundText]) {
-                            return roundKeywords[roundText];
-                        }
-                    }
-                }
-            }
-            
-            // If no round found in name, check competition notes if available
-            if (event.competitions && 
-                event.competitions[0] && 
-                event.competitions[0].notes) {
-                
-                for (const note of event.competitions[0].notes) {
-                    if (note.headline) {
-                        if (note.headline.includes("First Round") || 
-                            note.headline.includes("Round of 64")) {
-                            return 1;
-                        } else if (note.headline.includes("Second Round") || 
-                                note.headline.includes("Round of 32")) {
-                            return 2;
-                        } else if (note.headline.includes("Sweet 16") || 
-                                note.headline.includes("Sweet Sixteen")) {
-                            return 3;
-                        } else if (note.headline.includes("Elite Eight") || 
-                                note.headline.includes("Elite 8")) {
-                            return 4;
-                        } else if (note.headline.includes("Final Four")) {
-                            return 5;
-                        } else if (note.headline.includes("National Championship") ||
-                                note.headline.includes("Championship Game")) {
-                            return 6;
-                        }
-                    }
-                }
-            }
-            
-            // Fallback to date-based round detection
-            const gameDate = new Date(event.date);
-            const dayOfMonth = gameDate.getDate();
-            
-            // Adjust these dates based on the actual 2026 tournament schedule
-            if (dayOfMonth <= 21) {
-                return 1; // First Round
-            } else if (dayOfMonth <= 23) {
-                return 2; // Second Round
-            } else if (dayOfMonth <= 25) {
-                return 3; // Sweet 16
-            } else if (dayOfMonth <= 27) {
-                return 4; // Elite 8
-            } else if (dayOfMonth <= 29) {
-                return 5; // Final Four
-            } else {
-                return 6; // Championship
-            }
-        }
+            document.getElementById('check-result').addEventListener('click', manualCheck);
 
-        // Update the fetchESPNGamesForDate function to use the new round detection
-        // Replace the existing round detection code with this call:
-        // let round = detectTournamentRound(event);
-
-
-
-
-        function fetchJSONP(url) {
-            return new Promise((resolve, reject) => {
-                const cbName = 'espnCb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
-                const script = document.createElement('script');
-                const timer = setTimeout(() => {
-                    cleanup();
-                    reject(new Error('Request timed out'));
-                }, 15000);
-
-                function cleanup() {
-                    clearTimeout(timer);
-                    delete window[cbName];
-                    if (script.parentNode) script.parentNode.removeChild(script);
-                }
-
-                window[cbName] = function(data) {
-                    cleanup();
-                    resolve(data);
-                };
-
-                script.onerror = function() {
-                    cleanup();
-                    reject(new Error('Failed to load script'));
-                };
-
-                script.src = url + '&callback=' + cbName;
-                document.head.appendChild(script);
-            });
-        }
-
-        function fetchESPNGamesForDate(dateParam) {
-            // Ensure we're only using 2026 dates
-            const validDateParam = dateParam.startsWith('2026') ? dateParam : '20260319';
-
-            const url = `https://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard?groups=50&limit=100&dates=${validDateParam}`;
-
-            // Debug info
-            apiDebugElement.textContent += `\nFetching: ${url}`;
-
-            return fetchJSONP(url)
-                .then(data => {
-                    // Debug info
-                    apiDebugElement.textContent += `\nTotal events for ${dateParam}: ${data.events ? data.events.length : 0}`;
-                    
-                    if (!data.events || data.events.length === 0) {
-                        return [];
-                    }
-                    
-                    // Debug info - show all events
-                    if (data.events && data.events.length > 0) {
-                        data.events.forEach((event, idx) => {
-                            const debugInfo = {
-                                id: event.id,
-                                name: event.name,
-                                shortName: event.shortName,
-                                hasNotes: event.competitions && event.competitions[0]?.notes ? true : false
-                            };
-                            apiDebugElement.textContent += `\nEvent ${idx}: ${JSON.stringify(debugInfo)}`;
-                        });
-                    }
-                    
-                    // Filter strictly for NCAA March Madness tournament games only
-                    const ncaaGames = data.events.filter(event => {
-                        const name = event.name || '';
-                        const notes = event.competitions &&
-                            event.competitions[0] &&
-                            event.competitions[0].notes
-                            ? event.competitions[0].notes : [];
-
-                        const marchMadnessKeywords = [
-                            "First Round", "Round of 64",
-                            "Second Round", "Round of 32",
-                            "Sweet 16", "Sweet Sixteen",
-                            "Elite Eight", "Elite 8",
-                            "Final Four",
-                            "National Championship",
-                            "NCAA Tournament", "March Madness"
-                        ];
-
-                        const nameMatch = marchMadnessKeywords.some(kw => name.includes(kw));
-                        const notesMatch = notes.some(note =>
-                            note.headline && marchMadnessKeywords.some(kw => note.headline.includes(kw))
-                        );
-
-                        return nameMatch || notesMatch;
-                    });
-                    
-                    // Map tournament games to our format
-                    return ncaaGames
-                        .filter(event => {
-                            // Keep games that are either in progress or completed
-                            return event.status && 
-                                (event.status.type.completed || 
-                                event.status.type.description === "In Progress");
-                        })
-                        .map(event => {
-                            const competition = event.competitions[0];
-                            const competitors = competition.competitors;
-                            
-                            if (!competitors || competitors.length < 2) {
-                                return null;
-                            }
-                            
-                            // Determine which team is home and which is away
-                            let homeTeam, awayTeam;
-                            for (const team of competitors) {
-                                if (team.homeAway === 'home') {
-                                    homeTeam = team;
-                                } else {
-                                    awayTeam = team;
-                                }
-                            }
-                            
-                            // If home/away isn't defined, use the first two teams
-                            if (!homeTeam) homeTeam = competitors[0];
-                            if (!awayTeam) awayTeam = competitors[1];
-                            
-                            // Skip games without scores
-                            if (isNaN(parseInt(homeTeam.score)) || isNaN(parseInt(awayTeam.score))) {
-                                return null;
-                            }
-                            
-                            const homeScore = parseInt(homeTeam.score);
-                            const awayScore = parseInt(awayTeam.score);
-                            
-                            // Determine winner and loser
-                            const [winner, loser] = homeScore > awayScore
-                                ? [homeTeam, awayTeam]
-                                : [awayTeam, homeTeam];
-                                
-                            const winnerScore = parseInt(winner.score);
-                            const loserScore = parseInt(loser.score);
-                            
-                            let round = detectTournamentRound(event);
-                            
-                            const isCompleted = event.status.type.completed;
-                            
-                            return {
-                                id: event.id,
-                                winnerTeam: winner.team.displayName,
-                                winnerScore: winnerScore,
-                                winnerLogo: winner.team.logo || (winner.team.logos && winner.team.logos[0] && winner.team.logos[0].href) || '',
-                                loserTeam: loser.team.displayName,
-                                loserScore: loserScore,
-                                loserLogo: loser.team.logo || (loser.team.logos && loser.team.logos[0] && loser.team.logos[0].href) || '',
-                                date: event.date,
-                                status: isCompleted ? 'final' : 'live',
-                                round: round,
-                                year: 2026 // Add year info
-                            };
-                        })
-                        .filter(game => game !== null); // Remove null entries
-                });
-        }
-        
-        function displayApiGames(games) {
-            apiGamesResults.innerHTML = games.map(game => {
-                const winnerLastDigit = game.winnerScore % 10;
-                const loserLastDigit = game.loserScore % 10;
-                const isWin = squares.some(square => 
-                    square.winner === winnerLastDigit && square.loser === loserLastDigit
-                );
-                const payout = isWin ? payouts[game.round] : 0;
-                const roundName = {
-                    1: 'Round 1', 2: 'Round 2', 3: 'Sweet 16',
-                    4: 'Elite 8', 5: 'Final Four', 6: 'Championship'
-                }[game.round];
-                
-                // Format the game status
-                const gameStatus = game.status === 'live' ? 
-                    '<span style="color: var(--warning-color); font-weight: bold;">LIVE</span>' : 
-                    '<span>Final</span>';
-                
-                // Check if the game is already in history
-                const inHistory = gameHistory.some(g => g.id === game.id);
-                
-                return `
-                    <div class="game-card ${isWin ? 'win' : 'loss'}">
-                        <div class="round-badge">${roundName}</div>
-                        <div class="team-score">
-                            ${game.winnerLogo ? `<img src="${game.winnerLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
-                            <div class="team-name">${game.winnerTeam}</div>
-                            <div class="score">${game.winnerScore}</div>
-                        </div>
-                        <div class="team-score">
-                            ${game.loserLogo ? `<img src="${game.loserLogo}" class="team-logo" alt="">` : '<div class="team-logo-placeholder"></div>'}
-                            <div class="team-name">${game.loserTeam}</div>
-                            <div class="score">${game.loserScore}</div>
-                        </div>
-                        <div class="game-info">
-                            <div>Score Digits: (${winnerLastDigit},${loserLastDigit})</div>
-                            <div>${gameStatus} | ${new Date(game.date).toLocaleDateString()}</div>
-                        </div>
-                        ${isWin ? `<div class="payout-circle">${payout}</div>` : ''}
-                        <button class="add-to-history-btn" data-game-id="${game.id}"
-                            ${inHistory ? 'disabled' : ''}>
-                            ${inHistory ? 'Added' : 'Add to History'}
-                        </button>
-                    </div>
-                `;
-            }).join('');
-            
-            if (games.length === 0) {
-                apiGamesResults.innerHTML = `
-                    <div class="result">
-                        No games found. Try changing the date range in settings or check if the 2026 NCAA tournament is active.
-                    </div>
-                `;
-            }
-            
-            document.querySelectorAll('.add-to-history-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const gameId = this.getAttribute('data-game-id');
-                    const game = games.find(g => g.id === gameId);
-                    if (!game) return;
-                    
-                    const winnerLastDigit = game.winnerScore % 10;
-                    const loserLastDigit = game.loserScore % 10;
-                    const isWin = squares.some(square => 
-                        square.winner === winnerLastDigit && square.loser === loserLastDigit
-                    );
-                    
-                    const historyGame = {
-                        ...game,
-                        payout: isWin ? payouts[game.round] : 0,
-                        isWin,
-                        fromApi: true,
-                        year: 2026
+            function fetchJSONP(url) {
+                return new Promise((resolve, reject) => {
+                    const cb = 'jsonp_' + Math.round(100000 * Math.random());
+                    window[cb] = (data) => {
+                        delete window[cb];
+                        const s = document.getElementById(cb);
+                        if (s) document.body.removeChild(s);
+                        resolve(data);
                     };
-                    
-                    addGameToHistoryList(historyGame);
-                    this.disabled = true;
-                    this.textContent = 'Added';
+                    const script = document.createElement('script');
+                    script.id = cb;
+                    script.src = `${url}${url.indexOf('?') >= 0 ? '&' : '?'}callback=${cb}`;
+                    script.onerror = () => reject(new Error('Connection failed'));
+                    document.body.appendChild(script);
                 });
-            });
-        }
-        
-        const resetAllDataBtn = document.getElementById('reset-all-data');
-        if (resetAllDataBtn) {
-            resetAllDataBtn.addEventListener('click', function() {
-                if (confirm('Are you sure you want to reset all data? This will delete all game history and set winnings to $0.')) {
-                    gameHistory = [];
-                    totalWinnings = 0;
-                    updateHistoryDisplay();
-                    updateWinningsDisplay();
-                    saveToStorage();
-                    alert('All data has been reset. The page will now reload.');
-                    window.location.reload();
-                }
-            });
-        }
-
-
-        // Trigger a fetch of games on page load to initialize the view
-        fetchTournamentGames();
-    });
+            }
+        });
     </script>
 </body>
+</html>
