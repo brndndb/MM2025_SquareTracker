@@ -190,6 +190,43 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
+        .square-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .square-row label { font-weight: 600; margin: 0; min-width: 70px; }
+        .digit-input {
+            width: 64px !important;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 6px 8px !important;
+        }
+        .square-row .sep { font-size: 20px; color: #888; padding: 0 2px; }
+        .remove-square-btn {
+            background: #f44336;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            box-shadow: none;
+        }
+        .remove-square-btn:hover { background: #c62828; }
+        #add-square-btn {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px dashed var(--primary-color);
+            padding: 6px 16px;
+            font-size: 13px;
+            box-shadow: none;
+            margin-right: 10px;
+        }
+        #add-square-btn:hover { background: #e8f0fb; transform: none; }
+        .squares-save-row { margin-top: 12px; display: flex; align-items: center; gap: 12px; }
+        #squares-saved-msg { font-size: 13px; color: var(--success-color); font-weight: 600; display: none; }
+
         #sticky-winnings-bar {
             position: sticky;
             top: 0;
@@ -219,8 +256,13 @@
 
         <div class="card">
             <h2>Your Squares</h2>
-            <p>Square 1: <span class="square">3</span> (Winner) - <span class="square">2</span> (Loser)</p>
-            <p>Square 2: <span class="square">8</span> (Winner) - <span class="square">9</span> (Loser)</p>
+            <p style="font-size:13px; color:#666; margin-top:-8px; margin-bottom:14px;">Enter 1–4 squares. Each square is a <strong>winner digit</strong> (0–9) and a <strong>loser digit</strong> (0–9).</p>
+            <div id="squares-editor"></div>
+            <div class="squares-save-row">
+                <button id="add-square-btn">+ Add Square</button>
+                <button id="save-squares-btn">Save Squares</button>
+                <span id="squares-saved-msg">&#10003; Saved!</span>
+            </div>
         </div>
 
         <div class="card">
@@ -290,15 +332,78 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const squares = [
-                { winner: 3, loser: 2 },
-                { winner: 8, loser: 9 }
-            ];
             const payouts = { 1: 20, 2: 30, 3: 40, 4: 50, 5: 60, 6: 240 };
-            
-            // State
+
+            // --- Squares state (persisted) ---
+            function loadSquares() {
+                try {
+                    const saved = JSON.parse(localStorage.getItem('ncaaSquares'));
+                    if (Array.isArray(saved) && saved.length >= 1 && saved.length <= 4) return saved;
+                } catch(e) {}
+                return [{ winner: 3, loser: 2 }, { winner: 8, loser: 9 }];
+            }
+            let squares = loadSquares();
+
+            // --- Squares editor ---
+            const editor = document.getElementById('squares-editor');
+            const addBtn = document.getElementById('add-square-btn');
+            const saveBtn = document.getElementById('save-squares-btn');
+            const savedMsg = document.getElementById('squares-saved-msg');
+
+            function renderEditor() {
+                editor.innerHTML = '';
+                squares.forEach((sq, i) => {
+                    const row = document.createElement('div');
+                    row.className = 'square-row';
+                    row.innerHTML = `
+                        <label>Square ${i + 1}</label>
+                        <input type="number" class="digit-input" min="0" max="9" value="${sq.winner}" data-idx="${i}" data-field="winner" title="Winner digit">
+                        <span class="sep">–</span>
+                        <input type="number" class="digit-input" min="0" max="9" value="${sq.loser}" data-idx="${i}" data-field="loser" title="Loser digit">
+                        <span style="font-size:12px;color:#888;">(winner – loser)</span>
+                        ${squares.length > 1 ? `<button class="remove-square-btn" data-idx="${i}">Remove</button>` : ''}
+                    `;
+                    editor.appendChild(row);
+                });
+                addBtn.style.display = squares.length >= 4 ? 'none' : '';
+            }
+
+            editor.addEventListener('input', e => {
+                const el = e.target;
+                if (!el.classList.contains('digit-input')) return;
+                let val = parseInt(el.value);
+                if (isNaN(val)) return;
+                val = Math.max(0, Math.min(9, val));
+                el.value = val;
+                squares[parseInt(el.dataset.idx)][el.dataset.field] = val;
+            });
+
+            editor.addEventListener('click', e => {
+                const btn = e.target.closest('.remove-square-btn');
+                if (!btn) return;
+                squares.splice(parseInt(btn.dataset.idx), 1);
+                renderEditor();
+            });
+
+            addBtn.addEventListener('click', () => {
+                if (squares.length < 4) {
+                    squares.push({ winner: 0, loser: 0 });
+                    renderEditor();
+                }
+            });
+
+            saveBtn.addEventListener('click', () => {
+                localStorage.setItem('ncaaSquares', JSON.stringify(squares));
+                savedMsg.style.display = 'inline';
+                setTimeout(() => savedMsg.style.display = 'none', 2000);
+                fetchTournamentGames();
+            });
+
+            renderEditor();
+
+            // --- Other state ---
             let dateRange = localStorage.getItem('ncaaDateRange') || '3';
-            
+
             // DOM
             const apiResultsGrid = document.getElementById('api-games-results');
             const totalDisplay = document.getElementById('total-winnings');
@@ -335,8 +440,8 @@
                 const loader = document.getElementById('api-games-container');
                 loader.style.display = 'block';
                 apiResultsGrid.innerHTML = '';
-                
-                const today = new Date(); 
+
+                const today = new Date();
                 const dates = [];
                 for(let i = 0; i < parseInt(dateRange); i++) {
                     const d = new Date(today);
@@ -361,6 +466,7 @@
                             const note = (comp0.notes || []).find(n => n.headline)
                                       || (event.notes || []).find(n => n.headline);
                             const headline = note ? note.headline.toLowerCase() : "";
+                            if (headline.includes('first four')) return;
                             const isTournamentHeadline = headline.includes('first round') || headline.includes('second round') ||
                                 headline.includes('round of 64') || headline.includes('round of 32') ||
                                 headline.includes('sweet 16') || headline.includes('sweet sixteen') ||
@@ -399,9 +505,6 @@
 
                     const unique = Array.from(new Map(games.map(g => [g.id, g])).values());
 
-                    // Re-derive round from team appearance history:
-                    // Sort by date, then count how many prior games each team has played.
-                    // A team's Nth game = Round N, regardless of headline text.
                     unique.sort((a, b) => new Date(a.date) - new Date(b.date));
                     const teamGameCount = {};
                     unique.forEach(g => {
@@ -412,7 +515,6 @@
                         teamGameCount[g.loserTeam] = (teamGameCount[g.loserTeam] || 0) + 1;
                     });
 
-                    // Calculate automatic winnings from the whole fetched set
                     const total = unique.reduce((sum, g) => {
                         if (g.status !== 'final') return sum;
                         const winDigit = g.winnerScore % 10;
@@ -420,10 +522,9 @@
                         const isWin = squares.some(s => s.winner === winDigit && s.loser === loseDigit);
                         return isWin ? sum + (payouts[g.round] || 20) : sum;
                     }, 0);
-                    
+
                     updateWinningsUI(total);
 
-                    // Apply UI filtering
                     const filterVal = parseInt(document.getElementById('round-filter').value);
                     const filtered = unique.filter(g => filterVal === 0 || g.round === filterVal);
 
@@ -458,7 +559,7 @@
                     return `
                         <div class="game-card ${isWin && g.status === 'final' ? 'win' : 'loss'}">
                             <div class="round-badge">${roundTag} - ${g.status.toUpperCase()}</div>
-                            
+
                             <div class="scores-section">
                                 <div class="teams-container">
                                     <div class="team-score">
@@ -491,8 +592,8 @@
                 const loseD = l % 10;
                 const isWin = squares.some(s => s.winner === winD && s.loser === loseD);
                 const cont = document.getElementById('result-container');
-                cont.innerHTML = isWin ? 
-                    `<div class="card" style="background:#dff0d8; color:#3c763d; border:1px solid #d6e9c6;">MATCH! Digits (${winD}-${loseD}) would win.</div>` : 
+                cont.innerHTML = isWin ?
+                    `<div class="card" style="background:#dff0d8; color:#3c763d; border:1px solid #d6e9c6;">MATCH! Digits (${winD}-${loseD}) would win.</div>` :
                     `<div class="card" style="background:#f2dede; color:#a94442; border:1px solid #ebccd1;">NO MATCH for (${winD}-${loseD}).</div>`;
             }
             document.getElementById('check-result').addEventListener('click', manualCheck);
