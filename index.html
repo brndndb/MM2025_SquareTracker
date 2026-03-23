@@ -357,9 +357,19 @@
                     allData.forEach(day => {
                         if(!day.events) return;
                         day.events.forEach(event => {
-                            const note = (event.competitions[0].notes || []).find(n => n.headline);
+                            const comp0 = event.competitions[0];
+                            const note = (comp0.notes || []).find(n => n.headline)
+                                      || (event.notes || []).find(n => n.headline);
                             const headline = note ? note.headline.toLowerCase() : "";
-                            const isNcaa = headline.includes('ncaa') && (headline.includes('tournament') || headline.includes('round') || headline.includes('final four') || headline.includes('championship'));
+                            const isTournamentHeadline = headline.includes('first round') || headline.includes('second round') ||
+                                headline.includes('round of 64') || headline.includes('round of 32') ||
+                                headline.includes('sweet 16') || headline.includes('sweet sixteen') ||
+                                headline.includes('elite 8') || headline.includes('elite eight') ||
+                                headline.includes('final four') || headline.includes('national championship') ||
+                                headline.includes('championship game');
+                            const isNcaa = isTournamentHeadline || (headline.includes('ncaa') &&
+                                (headline.includes('tournament') || headline.includes('round') ||
+                                 headline.includes('final four') || headline.includes('championship')));
                             if (!isNcaa) return;
 
                             const comp = event.competitions[0];
@@ -388,7 +398,20 @@
                     });
 
                     const unique = Array.from(new Map(games.map(g => [g.id, g])).values());
-                    
+
+                    // Re-derive round from team appearance history:
+                    // Sort by date, then count how many prior games each team has played.
+                    // A team's Nth game = Round N, regardless of headline text.
+                    unique.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    const teamGameCount = {};
+                    unique.forEach(g => {
+                        const wPrior = teamGameCount[g.winnerTeam] || 0;
+                        const lPrior = teamGameCount[g.loserTeam] || 0;
+                        g.round = Math.max(wPrior, lPrior) + 1;
+                        teamGameCount[g.winnerTeam] = (teamGameCount[g.winnerTeam] || 0) + 1;
+                        teamGameCount[g.loserTeam] = (teamGameCount[g.loserTeam] || 0) + 1;
+                    });
+
                     // Calculate automatic winnings from the whole fetched set
                     const total = unique.reduce((sum, g) => {
                         if (g.status !== 'final') return sum;
@@ -410,12 +433,12 @@
             }
 
             function detectRound(headline) {
-                if (headline.includes('round of 64') || headline.includes('first round')) return 1;
-                if (headline.includes('round of 32') || headline.includes('second round')) return 2;
-                if (headline.includes('sweet 16') || headline.includes('sixteen')) return 3;
-                if (headline.includes('elite 8') || headline.includes('eight')) return 4;
+                if (headline.includes('national championship') || headline.includes('championship game')) return 6;
                 if (headline.includes('final four')) return 5;
-                if (headline.includes('national championship')) return 6;
+                if (headline.includes('elite 8') || headline.includes('elite eight') || headline.includes('regional final')) return 4;
+                if (headline.includes('sweet 16') || headline.includes('sweet sixteen') || headline.includes('regional semifinal')) return 3;
+                if (headline.includes('round of 32') || headline.includes('second round')) return 2;
+                if (headline.includes('round of 64') || headline.includes('first round')) return 1;
                 return 1;
             }
 
